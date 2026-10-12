@@ -311,25 +311,30 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .faq details[open] summary .icon { transform: rotate(180deg); }
 .faq details p { padding: 0 0 24px; max-width: 38em; }
 
-/* Cierre y pie */
-.closing { background: var(--p800); color: var(--p50); padding: var(--section) 0; }
+/* Cierre (claro) y pie (oscuro) */
+.closing { background: var(--p50); color: var(--p900); border-top: 1px solid var(--p100); padding: var(--section) 0; }
 .closing .big {
-  font-size: clamp(56px, 10.5vw, 160px); line-height: .98; letter-spacing: -0.025em; color: var(--p50);
+  font-size: clamp(56px, 10.5vw, 160px); line-height: .98; letter-spacing: -0.025em;
 }
 .closing .big span { display: block; }
-.closing .big span + span { padding-left: .4em; }
+.closing .big span:first-child { color: var(--p900); }
+.closing .big span + span { color: var(--p600); padding-left: .4em; }
 .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 24px; }
-.col { border-top: 1px solid rgba(242, 247, 247, .55); padding-top: 24px; display: flex; flex-direction: column; gap: 24px; align-items: flex-start; }
+.col { border-top: 1px solid rgba(17, 43, 44, .35); padding-top: 24px; display: flex; flex-direction: column; gap: 24px; align-items: flex-start; }
 .col p { font-size: 24px; font-weight: 500; line-height: 1.25; letter-spacing: -0.01em; }
-.link { color: var(--p50); font-size: 16px; font-weight: 500; text-decoration: none; display: inline-flex; gap: 6px; align-items: center; border-bottom: 1px solid transparent; }
-.link:hover, .link:focus-visible { color: var(--p50); border-bottom-color: var(--p50); }
-.closing a:focus-visible, .site-footer a:focus-visible { outline-color: var(--p50); }
+.link { color: var(--p900); font-size: 16px; font-weight: 500; text-decoration: none; display: inline-flex; gap: 6px; align-items: center; border-bottom: 1px solid transparent; }
+.link:hover, .link:focus-visible { color: var(--p900); border-bottom-color: var(--p900); }
 
-.site-footer { background: var(--p900); color: var(--p50); padding: var(--section) 0 40px; }
-.foot-brand { display: flex; flex-direction: column; gap: 16px; }
-.foot-brand img { width: min(100%, 440px); height: auto; }
+.site-footer { background: var(--p900); color: var(--p50); min-height: 100vh; min-height: 100svh; display: flex; }
+.site-footer a:focus-visible { outline-color: var(--p50); }
+.foot-inner { width: 100%; display: flex; flex-direction: column; justify-content: space-between; gap: clamp(32px, 6vh, 72px); padding-top: clamp(64px, 12vh, 140px); padding-bottom: clamp(24px, 4vh, 40px); }
+.foot-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 24px; }
+.foot-brand { display: flex; flex-direction: column; gap: clamp(12px, 2vh, 20px); }
+.foot-brand img { width: clamp(280px, 46vw, 560px); height: auto; }
 .foot-brand p { font-size: 18px; color: var(--p200); }
-.foot-grid { border-top: 1px solid var(--p800); padding-top: 48px; display: flex; flex-wrap: wrap; gap: 48px; }
+.foot-clock { font-size: 16px; color: var(--p200); font-variant-numeric: tabular-nums; }
+.foot-clock time { color: var(--p50); margin-left: 6px; }
+.foot-grid { border-top: 1px solid rgba(242, 247, 247, .2); padding-top: clamp(32px, 6vh, 56px); display: flex; flex-wrap: wrap; gap: 48px; }
 .foot-block { flex: 1 1 320px; display: flex; flex-direction: column; gap: 16px; }
 .foot-block-wide { flex: 2 1 480px; }
 .foot-block h3 { font-size: 18px; font-weight: 600; }
@@ -338,8 +343,8 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .site-footer a { color: var(--p50); text-decoration: none; }
 .site-footer a:hover { text-decoration: underline; }
 .muted { color: var(--p200); }
-.foot-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; font-size: 14px; color: var(--p200); }
-.foot-bar a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
+.foot-bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; font-size: 14px; color: var(--p200); }
+.foot-bar a { justify-self: start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
 
 /* Pantallas medianas y móviles (segunda etapa, pero la base ya funciona) */
 @media (max-width: 960px) {
@@ -372,6 +377,8 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
   .pop { width: min(520px, calc(100% - 40px)); }
   .foot-block .sitemap { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; grid-auto-flow: row; }
   .closing .big span + span { padding-left: 0; }
+  .foot-bar { grid-template-columns: 1fr auto; }
+  .foot-bar > span[aria-hidden] { display: none; }
 }
 
 /* Sin animación: todo queda a la vista, una cosa debajo de otra */

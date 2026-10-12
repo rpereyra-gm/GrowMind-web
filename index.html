@@ -322,7 +322,7 @@
 </section>
 
 <!-- Cierre -->
-<section class="closing" id="contacto" aria-label="Contacto" data-tone="dark">
+<section class="closing" id="contacto" aria-label="Contacto">
   <div class="container stack-lg">
     <h2 class="big"><span>Empecemos</span><span>por lo simple.</span></h2>
     <div class="cols">
@@ -336,7 +336,7 @@
       </div>
       <div class="col">
         <p>Contanos cómo trabajás hoy.</p>
-        <a class="btn btn-on-dark" href="https://wa.me/543412753301?text=Hola%20GrowMind%2C%20quiero%20agendar%20una%20reuni%C3%B3n">
+        <a class="btn btn-primary" href="https://wa.me/543412753301?text=Hola%20GrowMind%2C%20quiero%20agendar%20una%20reuni%C3%B3n">
           <svg class="icon" width="20" height="20" aria-hidden="true"><use href="#i-whatsapp"/></svg>
           Escribinos por WhatsApp
         </a>
@@ -348,11 +348,14 @@
 </main>
 
 <!-- Pie -->
-<footer class="site-footer" aria-label="Pie de página" data-tone="dark">
-  <div class="container stack-lg">
-    <div class="foot-brand">
-      <img src="assets/img/logos/growmind-regular-blanco.svg" alt="growmind" width="440" height="98">
-      <p>Sistemas simples para negocios que crecen</p>
+<footer class="site-footer" id="pie" aria-label="Pie de página">
+  <div class="container foot-inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <img src="assets/img/logos/growmind-regular-blanco.svg" alt="growmind" width="560" height="125">
+        <p>Sistemas simples para negocios que crecen</p>
+      </div>
+      <p class="foot-clock">ART Rosario <time id="clock" datetime=""></time></p>
     </div>
     <div class="foot-grid">
       <div class="foot-block">
@@ -380,6 +383,7 @@
     <div class="foot-bar">
       <a href="#top"><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#i-chevron-up"/></svg>Volver arriba</a>
       <span>© 2026 GrowMind</span>
+      <span aria-hidden="true"></span>
     </div>
   </div>
 </footer>

@@ -11,7 +11,8 @@
   var navLinks = $$('.pill a');
   var navSections = navLinks.map(function (a) { return $(a.getAttribute('href')); });
   var hero = $('#portada');
-  var darks = $$('[data-tone="dark"]').filter(function (el) { return el !== header; });
+  var pie = $('#pie');
+  var onDark = false;
 
   toggle.addEventListener('click', function () {
     var open = header.classList.toggle('nav-open');
@@ -25,7 +26,7 @@
   });
 
   function updateHeader() {
-    var probe = 62, active = -1, tone = 'light', fade = '';
+    var probe = PROBE, active = -1, tone = 'light', fade = '';
     navSections.forEach(function (s, i) {
       var r = s.getBoundingClientRect();
       if (r.top <= 120 && r.bottom > 120) active = i;
@@ -33,14 +34,35 @@
     navLinks.forEach(function (a, i) {
       if (i === active) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
     });
-    darks.forEach(function (el) {
-      var r = el.getBoundingClientRect();
-      if (r.top <= probe && r.bottom > probe) { tone = 'dark'; fade = getComputedStyle(el).backgroundColor; }
-    });
+    if (onDark) { tone = 'dark'; fade = getComputedStyle(pie).backgroundColor; }
     if (fade) header.style.setProperty('--fade', fade); else header.style.removeProperty('--fade');
     header.setAttribute('data-tone', tone);
     header.setAttribute('data-hero', hero.getBoundingClientRect().bottom > 80 ? 'true' : 'false');
   }
+
+  // El menú pasa a tono oscuro cuando el pie está bajo la línea del menú.
+  var pieObserver = null, PROBE = 62;
+  function watchPie() {
+    if (!('IntersectionObserver' in window)) return;
+    if (pieObserver) pieObserver.disconnect();
+    var h = window.innerHeight;
+    pieObserver = new IntersectionObserver(function (entries) {
+      onDark = entries[entries.length - 1].isIntersecting;
+      updateHeader();
+    }, { rootMargin: '-' + PROBE + 'px 0px -' + Math.max(0, h - PROBE - 1) + 'px 0px' });
+    pieObserver.observe(pie);
+  }
+
+  // Hora de Rosario, cada 30 segundos
+  var clock = $('#clock');
+  var fmt = new Intl.DateTimeFormat('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', hour: '2-digit', minute: '2-digit', hour12: false });
+  function tickClock() {
+    var now = new Date();
+    clock.textContent = fmt.format(now);
+    clock.setAttribute('datetime', now.toISOString());
+  }
+  tickClock();
+  setInterval(tickClock, 30000);
 
   /* ---------- Problemas: cubo que gira en vertical ---------- */
   var prob = $('#problemas');
@@ -296,6 +318,7 @@
     });
   }
   function onResize() {
+    watchPie();
     sizeProblems();
     sizeServices();
     onScroll();
