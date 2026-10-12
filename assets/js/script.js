@@ -86,7 +86,6 @@
   /* ---------- Servicios: listado en tres copias con foco central ---------- */
   var svc = $('#servicios');
   var stage = $('#svc-stage');
-  var right = $('#svc-right');
   var track = $('#svc-track');
   var list = $('#svc-list');
   var marker = $('#svc-marker');
@@ -94,28 +93,41 @@
   var items = $$('li', list);
   var N = items.length;
   var STEP_PX = 260;
-  var rows = null, rowH = 56, stageH = 800, prog = 0, target = 0, hover = -1, raf = null, lastFocus = -2;
+  var EASE = 0.12;
+  var INK = [17, 43, 44], P600 = [51, 130, 132], P200 = [183, 214, 215], P800 = [27, 83, 85];
   var lineEls = $$('.lines li');
+  var lineItems = lineEls.map(function (l) {
+    var name = l.getAttribute('data-line');
+    return items.map(function (li, i) { return li.getAttribute('data-line') === name ? i : -1; }).filter(function (i) { return i >= 0; });
+  });
+
+  // Todo lo que se mide del layout se guarda acá y se recalcula solo al cambiar el tamaño.
+  var rows = null, rowH = 56, stageH = 800, secTop = 0, total = 0;
+  var cache = [];                 // último color y opacidad escritos en cada fila
+  var pos = 0, target = 0;        // posición suavizada y objetivo, en px de scroll dentro de la sección
+  var hover = -1, hoverW = 0, hoverIdx = 0, hoverTarget = 0;
+  var raf = null, lastPop = -2, shownIdx = -1;
 
   function buildCopies() {
     if (rows) return;
-    function copy(pos) {
+    function copy(where) {
       var ul = document.createElement('ul');
       ul.className = 'svc-list-copy svc-copy';
       ul.setAttribute('aria-hidden', 'true');
       items.forEach(function (li) {
         var c = document.createElement('li');
-        var s = document.createElement('span');
-        s.className = 'svc-copy-name';
-        s.textContent = $('.svc-name', li).textContent;
-        c.appendChild(s);
+        var sp = document.createElement('span');
+        sp.className = 'svc-copy-name';
+        sp.textContent = $('.svc-name', li).textContent;
+        c.appendChild(sp);
         ul.appendChild(c);
       });
-      if (pos === 'before') track.insertBefore(ul, list); else track.appendChild(ul);
+      if (where === 'before') track.insertBefore(ul, list); else track.appendChild(ul);
       return ul;
     }
     var before = copy('before'), after = copy('after');
     rows = $$('.svc-copy-name', before).concat($$('.svc-name', list), $$('.svc-copy-name', after));
+    cache = rows.map(function () { return { c: '', o: '' }; });
   }
 
   function sizeServices() {
@@ -127,60 +139,78 @@
     svc.style.setProperty('--row-h', rowH + 'px');
     svc.style.setProperty('--svc-h', (stageH + (N - 1) * STEP_PX) + 'px');
     marker.style.top = (stageH / 2 - 5) + 'px';
+    total = svc.offsetHeight - stageH;
+    secTop = svc.getBoundingClientRect().top + window.pageYOffset;
+    cache.forEach(function (c) { c.c = ''; c.o = ''; });
   }
 
   function readServices() {
-    var r = svc.getBoundingClientRect();
-    var total = svc.offsetHeight - stage.offsetHeight;
-    target = total > 0 ? clamp(-r.top / total, 0, 1) : 0;
-    loopServices();
+    if (reduce.matches || !rows) return;
+    target = total > 0 ? clamp(window.pageYOffset - secTop, 0, total) : 0;
+    wakeServices();
   }
 
-  function loopServices() {
-    if (raf) return;
-    raf = requestAnimationFrame(function step() {
-      raf = null;
-      // Suavizado: el listado persigue al scroll sin saltos entre ítems.
-      var diff = target - prog;
-      prog = Math.abs(diff) < 0.0003 ? target : prog + diff * 0.16;
-      renderServices();
-      if (prog !== target) raf = requestAnimationFrame(step);
-    });
+  function wakeServices() {
+    if (raf || reduce.matches) return;
+    raf = requestAnimationFrame(tickServices);
+  }
+
+  // Un solo ciclo: la posición suavizada persigue al objetivo y todo se calcula desde ella.
+  function tickServices() {
+    raf = null;
+    pos += (target - pos) * EASE;
+    hoverW += (hoverTarget - hoverW) * 0.2;
+    var settled = Math.abs(target - pos) < 0.05 && Math.abs(hoverTarget - hoverW) < 0.002;
+    if (settled) { pos = target; hoverW = hoverTarget; }
+    renderServices();
+    if (!settled) raf = requestAnimationFrame(tickServices);
+  }
+
+  function mix(a, b, t) {
+    return Math.round(a[0] + (b[0] - a[0]) * t) + ',' + Math.round(a[1] + (b[1] - a[1]) * t) + ',' + Math.round(a[2] + (b[2] - a[2]) * t);
   }
 
   function renderServices() {
     if (!rows || reduce.matches) return;
-    var f = prog * (N - 1);
+    var f = total > 0 ? pos / total * (N - 1) : 0;   // servicio en el centro, continuo
     var center = N + f;
-    var fi = hover >= 0 ? hover : Math.round(f);
-    track.style.transform = 'translateY(' + (stageH / 2 - center * rowH - rowH / 2).toFixed(1) + 'px)';
+    var cf = f + hoverW * (hoverIdx - f);            // servicio que lleva el foco de color
+    var cc = N + cf;
+    track.style.transform = 'translate3d(0,' + (stageH / 2 - center * rowH - rowH / 2).toFixed(2) + 'px,0)';
     for (var g = 0; g < rows.length; g++) {
       var d = Math.abs(g - center);
-      var op = d <= 4 ? 1 : (d >= 7.5 ? 0 : 1 - (d - 4) / 3.5);
-      rows[g].style.opacity = op.toFixed(3);
+      var o = d <= 4 ? '1' : (d >= 7.5 ? '0' : (1 - (d - 4) / 3.5).toFixed(3));
+      var dc = Math.min(Math.abs(g - cc), 2);
+      var col = 'rgb(' + (dc <= 1 ? mix(INK, P600, dc) : mix(P600, P200, dc - 1)) + ')';
+      var c = cache[g];
+      if (c.o !== o) { rows[g].style.opacity = o; c.o = o; }
+      if (c.c !== col) { rows[g].style.color = col; c.c = col; }
     }
-    if (fi !== lastFocus) {
-      lastFocus = fi;
-      for (var g2 = 0; g2 < rows.length; g2++) {
-        var dr = Math.abs(g2 - (N + fi));
-        rows[g2].style.color = dr === 0 ? '#112B2C' : (dr === 1 ? '#338284' : '#B7D6D7');
-      }
-      var line = items[fi].getAttribute('data-line');
-      lineEls.forEach(function (l) { l.classList.toggle('is-on', l.getAttribute('data-line') === line); });
-      if (noHover.matches) showPop(fi, null);
+    // Las tres líneas de la izquierda se tiñen según cuánto foco tienen sus servicios.
+    for (var k = 0; k < lineEls.length; k++) {
+      var w = 0;
+      lineItems[k].forEach(function (i) { w = Math.max(w, 1 - Math.min(Math.abs(i - cf), 1)); });
+      lineEls[k].style.color = 'rgb(' + mix(P800, INK, w) + ')';
     }
-    marker.style.display = hover >= 0 ? 'none' : 'block';
+    marker.style.opacity = (1 - hoverW).toFixed(3);
+    if (noHover.matches) {
+      var fi = Math.round(cf);
+      if (fi !== lastPop) { lastPop = fi; showPop(fi, null); }
+    }
   }
 
-  function showPop(i, e) {
+  var popBusy = false, popE = null;
+
+  function fillPop(i) {
     var li = items[i];
-    var line = li.getAttribute('data-line');
     var ps = $$('p', $('.svc-detail', li));
-    pop.querySelector('[data-f="line"]').textContent = line;
+    pop.querySelector('[data-f="line"]').textContent = li.getAttribute('data-line');
     pop.querySelector('[data-f="name"]').textContent = $('.svc-name', li).textContent;
     pop.querySelector('[data-f="que"]').textContent = ps[0].textContent;
     pop.querySelector('[data-f="cambia"]').textContent = ps[1].textContent.replace('Qué cambia para vos:', '').trim();
-    pop.hidden = false;
+  }
+
+  function placePop(e) {
     if (e) {
       var rect = stage.getBoundingClientRect();
       var x = clamp(e.clientX - rect.left + 24, 0, rect.width - pop.offsetWidth - 8);
@@ -191,12 +221,49 @@
     }
   }
 
+  function popIn() {
+    if (!pop.animate || reduce.matches) return;
+    pop.getAnimations().forEach(function (a) { a.cancel(); });
+    pop.animate([
+      { transform: 'scale(.88)', opacity: 0 },
+      { transform: 'scale(1)', opacity: 1 }
+    ], { duration: 190, easing: 'cubic-bezier(.2,.7,.3,1)' });
+  }
+
+  function hidePop() {
+    popBusy = false; shownIdx = -1;
+    if (pop.getAnimations) pop.getAnimations().forEach(function (a) { a.cancel(); });
+    pop.hidden = true;
+  }
+
+  // Al cambiar de servicio, la ficha actual se achica y desaparece, y la nueva se abre.
+  function showPop(i, e) {
+    popE = e;
+    var visible = !pop.hidden && shownIdx !== -1;
+    if (visible && i === shownIdx) { if (!popBusy) placePop(e); return; }
+    var prev = shownIdx;
+    shownIdx = i;
+    if (!visible || reduce.matches || !pop.animate) {
+      fillPop(i); pop.hidden = false; placePop(e); popIn();
+      return;
+    }
+    popBusy = true;
+    var out = pop.animate([
+      { transform: 'scale(1)', opacity: 1 },
+      { transform: 'scale(.88)', opacity: 0 }
+    ], { duration: 120, easing: 'ease-in', fill: 'forwards' });
+    out.onfinish = function () {
+      if (!popBusy || shownIdx !== i) return;   // el puntero ya se fue o cambió de nuevo
+      popBusy = false;
+      fillPop(i); placePop(popE); popIn();
+    };
+  }
+
   function setHover(i, e) {
     if (reduce.matches || !rows) return;
     hover = i;
-    lastFocus = -2;
-    if (i >= 0) showPop(i, e); else if (!noHover.matches) pop.hidden = true;
-    renderServices();
+    if (i >= 0) { hoverIdx = i; hoverTarget = 1; showPop(i, e); } else { hoverTarget = 0; if (!noHover.matches) hidePop(); }
+    wakeServices();
   }
 
   function bindServices() {
@@ -208,6 +275,11 @@
         setHover(i, { clientX: r.left + 40, clientY: r.bottom - 16 });
       });
       b.addEventListener('blur', function () { setHover(-1); });
+      // Al salir del texto del servicio la ficha desaparece, salvo que se pase directo a otro servicio
+      b.addEventListener('mouseleave', function (e) {
+        var to = e.relatedTarget;
+        if (!(to && to.classList && to.classList.contains('svc-name'))) setHover(-1);
+      });
     });
     stage.addEventListener('mouseleave', function () { setHover(-1); });
   }
@@ -221,23 +293,22 @@
       onScrollQueued = false;
       updateHeader();
       updateProblems();
-      readServices();
     });
   }
   function onResize() {
     sizeProblems();
     sizeServices();
-    lastFocus = -2;
     onScroll();
+    readServices();
+    pos = target;
+    renderServices();
   }
 
   bindServices();
-  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('scroll', function () { onScroll(); readServices(); }, { passive: true });
   window.addEventListener('resize', onResize);
   var onReduce = function () { location.reload(); };
   if (reduce.addEventListener) reduce.addEventListener('change', onReduce);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(onResize);
   onResize();
-  prog = target;
-  renderServices();
 })();

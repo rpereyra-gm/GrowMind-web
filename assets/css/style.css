@@ -242,17 +242,16 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .svc-left h2 { font-family: var(--sans); font-size: 18px; font-weight: 500; line-height: 1.4; letter-spacing: 0; color: var(--p900); }
 .svc-lead { font-size: 16px; line-height: 1.5; color: var(--p900); }
 .lines { display: flex; flex-direction: column; gap: 14px; margin-top: 12px; }
-.lines li { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; line-height: 1.45; color: var(--p800); transition: color .2s; }
+.lines li { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; line-height: 1.45; color: var(--p800); }
 .lines li .icon { margin-top: 1px; }
 .lines li b { font-weight: 600; }
-.lines li.is-on { color: var(--p900); }
 .svc-right { position: relative; min-width: 0; padding-left: 32px; }
 .marker { display: none; position: absolute; left: 0; width: 10px; height: 10px; border-radius: 2px; background: var(--p800); }
 .svc-list { display: flex; flex-direction: column; }
 .svc-name {
-  display: block; width: 100%; padding: 0; background: none; border: 0; text-align: left; cursor: default;
+  display: block; width: fit-content; max-width: 100%; padding: 0; background: none; border: 0; text-align: left; cursor: default;
   font-family: var(--display); font-size: clamp(30px, 3.3vw, 44px); font-weight: 600; letter-spacing: -0.01em;
-  line-height: 1.3; white-space: nowrap; color: var(--p900); transition: color .18s;
+  line-height: 1.3; white-space: nowrap; color: var(--p900); will-change: color;
 }
 .svc-line { align-self: flex-start; display: inline-block; font-size: 13px; font-weight: 500; color: var(--p800); background: var(--p100); border-radius: var(--r-md); padding: 4px 10px; }
 .svc-detail { display: flex; flex-direction: column; gap: 10px; padding: 8px 0 32px; max-width: 40em; font-size: 16px; line-height: 1.5; }
@@ -264,16 +263,17 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .js .svc-list li, .js .svc-list-copy li { height: var(--row-h, 56px); }
 .js .svc-detail { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .js .svc-name, .svc-copy-name { line-height: var(--row-h, 56px); }
-.svc-copy-name { font-family: var(--display); font-size: clamp(30px, 3.3vw, 44px); font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; display: block; height: var(--row-h, 56px); transition: color .18s; }
+.svc-copy-name { font-family: var(--display); font-size: clamp(30px, 3.3vw, 44px); font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; display: block; height: var(--row-h, 56px); }
 
 .pop {
-  position: absolute; z-index: 5; width: 340px; pointer-events: none;
-  background: #fff; border: 1px solid var(--p100); border-radius: var(--r-lg); padding: 24px;
-  display: flex; flex-direction: column; gap: 12px; box-shadow: 0 8px 24px rgba(17, 43, 44, .08);
-  font-size: 16px; line-height: 1.5; color: var(--p900);
+  position: absolute; z-index: 5; width: 520px; pointer-events: none; transform-origin: 0 0;
+  background: #fff; border: 1px solid var(--p100); border-radius: var(--r-lg); padding: 16px 20px;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; box-shadow: 0 8px 24px rgba(17, 43, 44, .08);
+  font-size: 15px; line-height: 1.45; color: var(--p900);
 }
+.pop > p:not(.pop-title) { flex: 1 1 100%; }
 .pop[hidden] { display: none; }
-.pop-title { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; }
+.pop-title { flex: 1 1 0; min-width: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; }
 
 /* Secciones comunes */
 .section { border-top: 1px solid var(--p100); padding: var(--section) 0; }
@@ -369,7 +369,7 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
   .js .svc-left { margin-top: 90px; max-width: none; }
   .js .svc-left .lines { display: none; }
   .svc-right { padding-left: 24px; }
-  .pop { width: min(340px, calc(100% - 40px)); }
+  .pop { width: min(520px, calc(100% - 40px)); }
   .foot-block .sitemap { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; grid-auto-flow: row; }
   .closing .big span + span { padding-left: 0; }
 }
