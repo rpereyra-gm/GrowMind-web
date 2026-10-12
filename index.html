@@ -31,6 +31,9 @@
     <symbol id="i-arrow-right" viewBox="0 0 64 24"><path d="M2 12h58"/><path d="M52 5l8 7l-8 7"/></symbol>
     <symbol id="i-chevron-up" viewBox="0 0 24 24"><path d="M6 15l6 -6l6 6"/></symbol>
     <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M6 9l6 6l6 -6"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><path d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M8.7 10.7l6.6 -3.4"/><path d="M8.7 13.3l6.6 3.4"/></symbol>
+    <symbol id="i-instagram" viewBox="0 0 24 24"><path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M16.5 7.5v.01"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M8 11v5"/><path d="M8 8v.01"/><path d="M12 16v-5"/><path d="M16 16v-3a2 2 0 0 0 -4 0"/><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z"/></symbol>
     <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"/></symbol>
   </defs>
 </svg>
@@ -352,10 +355,10 @@
   <div class="container foot-inner">
     <div class="foot-top">
       <div class="foot-brand">
-        <img src="assets/img/logos/growmind-regular-blanco.svg" alt="growmind" width="560" height="125">
-        <p>Sistemas simples para negocios que crecen</p>
+        <img class="foot-logo" src="assets/img/logos/growmind-regular-blanco.svg" alt="growmind" width="660" height="147">
+        <p class="foot-desc">Sistemas simples para negocios que crecen</p>
       </div>
-      <p class="foot-clock">ART Rosario <time id="clock" datetime=""></time></p>
+      <p class="foot-clock"><span>ART Rosario</span> <time id="clock" datetime=""></time></p>
     </div>
     <div class="foot-grid">
       <div class="foot-block">
@@ -367,23 +370,28 @@
           <li class="muted">[Horario de atención]</li>
         </ul>
       </div>
-      <div class="foot-block foot-block-wide">
+      <div class="foot-block">
         <h3>Mapa del sitio</h3>
         <ul class="sitemap">
           <li><a href="#servicios">Servicios</a></li>
-          <li><a href="#preguntas">Preguntas</a></li>
-          <li class="muted">[Instagram]</li>
           <li><a href="#como-trabajamos">Cómo trabajamos</a></li>
-          <li><a href="#contacto">Contacto</a></li>
-          <li class="muted">[LinkedIn]</li>
           <li><a href="#trabajo">Trabajo</a></li>
+          <li><a href="#preguntas">Preguntas</a></li>
+          <li><a href="#contacto">Contacto</a></li>
         </ul>
       </div>
     </div>
     <div class="foot-bar">
       <a href="#top"><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#i-chevron-up"/></svg>Volver arriba</a>
       <span>© 2026 GrowMind</span>
-      <span aria-hidden="true"></span>
+      <div class="follow">
+        <span class="follow-label">Seguinos</span>
+        <svg class="icon follow-share" width="20" height="20" aria-hidden="true"><use href="#i-share"/></svg>
+        <div class="follow-icons">
+          <span class="follow-link" tabindex="0" role="link" aria-disabled="true" aria-label="Instagram (enlace pendiente)" title="[Instagram: enlace pendiente]"><svg class="icon" width="20" height="20" aria-hidden="true"><use href="#i-instagram"/></svg></span>
+          <span class="follow-link" tabindex="0" role="link" aria-disabled="true" aria-label="LinkedIn (enlace pendiente)" title="[LinkedIn: enlace pendiente]"><svg class="icon" width="20" height="20" aria-hidden="true"><use href="#i-linkedin"/></svg></span>
+        </div>
+      </div>
     </div>
   </div>
 </footer>
