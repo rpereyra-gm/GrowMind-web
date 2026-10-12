@@ -1,0 +1,1 @@
+Exporta el doc "GrowMind web: contenido v1" a Markdown y guardalo en esta carpeta como contenido.md.

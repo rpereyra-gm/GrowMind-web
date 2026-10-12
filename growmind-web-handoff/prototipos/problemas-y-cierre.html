@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GrowMind · Problemas (prototipo de scroll)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --surface: #F2F7F7;
+    --ink: #112B2C;
+    --ink-secondary: #1B5355;
+    --emph: #338284;
+    --line: #DFECEC;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --surface: #1B5355; --ink: #F2F7F7; --ink-secondary: #B7D6D7; --emph: #B7D6D7; --line: #338284;
+    }
+  }
+  :root[data-theme="dark"] {
+    --surface: #1B5355; --ink: #F2F7F7; --ink-secondary: #B7D6D7; --emph: #B7D6D7; --line: #338284;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--surface); color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 18px; line-height: 1.5;
+  }
+  .ctx {
+    min-height: 70vh; display: grid; place-content: center; text-align: center;
+    padding: 64px 20px; color: var(--ink-secondary);
+  }
+  .ctx small { font-size: 14px; display: block; margin-bottom: 8px; }
+  .ctx strong { font-size: clamp(28px, 4vw, 44px); font-weight: 600; color: var(--ink); letter-spacing: -0.02em; }
+
+  /* Sección con scroll */
+  #problemas { position: relative; }
+  .stage {
+    position: sticky; top: 0; height: 100vh; height: 100svh;
+    display: grid; grid-template-columns: minmax(0, 22%) minmax(0, 1fr);
+    column-gap: 24px; align-content: center;
+    padding: 0 20px;
+  }
+  @media (min-width: 900px) { .stage { padding: 0 40px; } }
+  .label { font-size: 14px; line-height: 1.35; color: var(--ink); padding-top: 0.6em; align-self: start; margin-top: 18vh; }
+  .main { display: grid; gap: 40px; align-self: center; }
+  .window { display: grid; overflow: hidden; padding: 0.12em 0 0.2em; font-size: clamp(32px, 5.2vw, 84px); }
+  .phrase { grid-area: 1 / 1; font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; }
+  .phrase span { display: block; will-change: transform, opacity; transform-origin: left bottom; }
+  .phrase .l1 { color: var(--ink); }
+  .phrase .l2 { color: var(--emph); }
+  .sub { font-size: 14px; color: var(--ink-secondary); display: flex; gap: 16px; align-items: center; }
+  .bar { flex: 0 0 120px; height: 2px; background: var(--line); border-radius: 2px; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--ink-secondary); }
+
+  @media (max-width: 640px) {
+    .stage { grid-template-columns: 1fr; align-content: center; row-gap: 24px; }
+    .label { margin-top: 0; grid-row: 1; }
+    .window { font-size: clamp(30px, 9vw, 44px); }
+  }
+
+  /* Sin animación: las frases quedan una debajo de otra */
+  @media (prefers-reduced-motion: reduce) {
+    #problemas { height: auto !important; }
+    .stage { position: static; height: auto; padding-top: 64px; padding-bottom: 64px; }
+    .window { display: block; overflow: visible; }
+    .phrase { margin-bottom: 0.6em; }
+    .phrase span { transform: none !important; opacity: 1 !important; }
+    .sub { display: none; }
+  }
+
+  .next { min-height: 70vh; display: grid; place-content: center; text-align: center; padding: 64px 20px; border-top: 1px solid var(--line); color: var(--ink-secondary); }
+  /* Cierre y pie */
+  .closing { background: #1B5355; color: #F2F7F7; padding: 64px 20px; }
+  .closing .big { margin: 0; font-weight: 600; letter-spacing: -0.04em; line-height: 0.98; font-size: clamp(44px, 11.5vw, 168px); }
+  .closing .big span { display: block; }
+  .closing .big span + span { margin-left: 0.4em; }
+  .cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 64px; }
+  .col { border-top: 1px solid rgba(242,247,247,0.55); padding-top: 24px; display: flex; flex-direction: column; gap: 24px; align-items: flex-start; }
+  .col p { margin: 0; font-size: clamp(20px, 2vw, 26px); font-weight: 500; letter-spacing: -0.01em; line-height: 1.25; }
+  .link { color: #F2F7F7; font-size: 16px; font-weight: 500; text-decoration: none; border-bottom: 1px solid transparent; }
+  .link:hover, .link:focus-visible { border-bottom-color: #F2F7F7; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 12px 24px; border-radius: 8px; background: #F2F7F7; color: #1B5355; font-size: 16px; font-weight: 500; text-decoration: none; }
+  .btn:hover, .btn:focus-visible { background: #DFECEC; }
+  .foot { background: #112B2C; color: #F2F7F7; padding: 64px 20px calc(48px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid #1B5355; }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px 24px; }
+  .foot .brand { font-size: 28px; font-weight: 600; letter-spacing: -0.03em; }
+  .foot .desc { margin: 12px 0 0; color: #B7D6D7; font-size: 16px; max-width: 28ch; }
+  .foot h3 { margin: 0 0 16px; font-size: 14px; font-weight: 500; color: #B7D6D7; }
+  .foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 15px; }
+  .foot a { color: #F2F7F7; text-decoration: none; }
+  .foot a:hover, .foot a:focus-visible { text-decoration: underline; }
+  .copy { margin-top: 48px; font-size: 14px; color: #B7D6D7; }
+  @media (min-width: 900px) { .closing, .foot { padding-left: 40px; padding-right: 40px; } .closing { padding-top: 96px; padding-bottom: 96px; } }
+  @media (max-width: 800px) { .cols { grid-template-columns: 1fr; margin-top: 48px; } .foot-grid { grid-template-columns: 1fr 1fr; } .foot-grid > :first-child { grid-column: 1 / -1; } .closing .big span + span { margin-left: 0; } }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .closing { background: #112B2C; } }
+  :root[data-theme="dark"] .closing { background: #112B2C; }
+</style>
+</head>
+<body>
+
+<div class="ctx">
+  <small>Portada (ejemplo)</small>
+  <strong>De lo complejo a lo simple</strong>
+</div>
+
+<section id="problemas" aria-label="Problemas">
+  <div class="stage">
+    <div class="label">Problemas<br>que ordenamos</div>
+    <div class="main">
+      <div class="window" id="window">
+        <p class="phrase" style="margin:0"><span class="l1">Respondés lo mismo</span><span class="l2">todos los días.</span></p>
+        <p class="phrase" style="margin:0"><span class="l1">Tus datos están</span><span class="l2">por todos lados.</span></p>
+        <p class="phrase" style="margin:0"><span class="l1">Invertís en publicidad</span><span class="l2">y no sabés qué devuelve.</span></p>
+        <p class="phrase" style="margin:0"><span class="l1">Tu tienda tiene visitas</span><span class="l2">pero cuesta que compren.</span></p>
+        <p class="phrase" style="margin:0"><span class="l1">Si te pide más tiempo</span><span class="l2">del que da, lo ordenamos.</span></p>
+      </div>
+      <div class="sub"><span id="count">1 de 5</span><span class="bar"><i id="fill"></i></span><span>Seguí bajando</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="next">
+  <small>Servicios (ejemplo)</small>
+  <strong style="font-size:clamp(28px,4vw,44px);color:var(--ink);letter-spacing:-0.02em">Qué hacemos</strong>
+</div>
+
+<section class="closing" id="contacto" aria-label="Contacto">
+  <h2 class="big"><span>Empecemos</span><span>por lo simple.</span></h2>
+  <div class="cols">
+    <div class="col"><p>Un proceso por vez.</p><a class="link" href="#como-trabajamos">Ver cómo trabajamos <span aria-hidden="true">↗</span></a></div>
+    <div class="col"><p>Trabajos reales, sin vueltas.</p><a class="link" href="#trabajo">Ver lo que armamos <span aria-hidden="true">↗</span></a></div>
+    <div class="col"><p>Contanos cómo trabajás hoy.</p><a class="btn" href="https://wa.me/+543412753301?text=Hola%20GrowMind%2C%20quiero%20agendar%20una%20reuni%C3%B3n">Escribinos por WhatsApp <span aria-hidden="true">↗</span></a></div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="foot-grid">
+    <div><div class="brand">growmind</div><p class="desc">Sistemas simples para negocios que crecen</p></div>
+    <div><h3>Menú</h3><ul><li><a href="#servicios">Servicios</a></li><li><a href="#como-trabajamos">Cómo trabajamos</a></li><li><a href="#trabajo">Trabajo</a></li><li><a href="#preguntas">Preguntas</a></li></ul></div>
+    <div><h3>Contacto</h3><ul><li><a href="mailto:admin@growmind.com.ar">admin@growmind.com.ar</a></li><li><a href="tel:+543412753301">+54 341 275 3301</a></li><li>Rosario, Argentina</li></ul></div>
+    <div><h3>Redes</h3><ul><li><a href="#">Instagram</a></li><li><a href="#">LinkedIn</a></li></ul></div>
+  </div>
+  <p class="copy">© 2026 GrowMind</p>
+</footer>
+
+<script>
+(function () {
+  var sec = document.getElementById('problemas');
+  var win = document.getElementById('window');
+  var phrases = Array.prototype.slice.call(document.querySelectorAll('.phrase'));
+  var count = document.getElementById('count');
+  var fill = document.getElementById('fill');
+  var n = phrases.length;
+  var STEP = 0.8;          // alto de scroll por frase, en pantallas
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var ticking = false;
+
+  function setHeight() {
+    if (reduce.matches) { sec.style.height = 'auto'; return; }
+    sec.style.height = ((n - 1) * STEP * 100 + 100) + 'vh';
+  }
+
+  // d = distancia de la frase a la posición actual. Meseta en el centro, y suavizado al salir o entrar.
+  function ease(d) {
+    var a = Math.min(Math.max((Math.abs(d) - 0.2) / 0.6, 0), 1);
+    a = a * a * (3 - 2 * a);
+    return d < 0 ? -a : a;
+  }
+
+  function apply(el, d, h) {
+    var e = ease(d), a = Math.abs(e);
+    el.style.transform = 'translateY(' + (e * h).toFixed(1) + 'px) skewX(' + (-14 * a).toFixed(1) + 'deg)';
+    el.style.opacity = (1 - Math.pow(a, 1.1)).toFixed(3);
+  }
+
+  function update() {
+    ticking = false;
+    if (reduce.matches) return;
+    var r = sec.getBoundingClientRect();
+    var total = sec.offsetHeight - window.innerHeight;
+    var t = total > 0 ? Math.min(Math.max(-r.top / total, 0), 1) : 0;
+    var p = t * (n - 1);
+    var h = win.offsetHeight;
+    phrases.forEach(function (ph, i) {
+      var d = i - p;
+      apply(ph.children[0], d, h);
+      apply(ph.children[1], d + 0.12, h); // la segunda línea llega un poco después
+    });
+    count.textContent = (Math.round(p) + 1) + ' de ' + n;
+    fill.style.width = (t * 100).toFixed(1) + '%';
+  }
+
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () { setHeight(); onScroll(); });
+  if (reduce.addEventListener) reduce.addEventListener('change', function () { setHeight(); update(); });
+  setHeight(); update();
+})();
+</script>
+</body>
+</html>

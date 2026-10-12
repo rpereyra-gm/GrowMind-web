@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>GrowMind · Sistemas simples para negocios que crecen</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F2F7F7}
+a{color:#1B5355}a:hover{color:#112B2C}
+button{font:inherit;color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid #1B5355;outline-offset:2px}
+</style>
+</helmet>
+<div style="font-family: Inter, system-ui, sans-serif; color: #112B2C; background: #F2F7F7; min-height: 100vh;">
+
+<!-- Menú -->
+<header id="top" style="position: sticky; top: 0; z-index: 10; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 40px;">
+  <a href="#top" aria-label="GrowMind, ir al inicio" style="display: flex;"><img src="/_blob/e09e1cf5d4faca05d5be48f5d450c950" alt="growmind" style="width: 140px; height: auto; display: block;"></a>
+  <nav aria-label="Principal" style="display: flex; flex-wrap: wrap; gap: 4px; padding: 6px; border-radius: 12px; background: rgba(242, 247, 247, 0.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid #DFECEC;">
+    <a href="#servicios" style="padding: 10px 16px; border-radius: 8px; font-size: 15px; font-weight: 500; text-decoration: none; color: #FFFFFF; background: #1B5355;">Servicios</a>
+    <a href="#como-trabajamos" style="padding: 10px 16px; border-radius: 8px; font-size: 15px; font-weight: 500; text-decoration: none; color: #112B2C;">Cómo trabajamos</a>
+    <a href="#trabajo" style="padding: 10px 16px; border-radius: 8px; font-size: 15px; font-weight: 500; text-decoration: none; color: #112B2C;">Trabajo</a>
+    <a href="#preguntas" style="padding: 10px 16px; border-radius: 8px; font-size: 15px; font-weight: 500; text-decoration: none; color: #112B2C;">Preguntas</a>
+    <a href="#contacto" style="padding: 10px 16px; border-radius: 8px; font-size: 15px; font-weight: 500; text-decoration: none; color: #112B2C;">Contacto</a>
+  </nav>
+  <a href="https://wa.me/+543412753301?text=Hola%20GrowMind%2C%20quiero%20agendar%20una%20reuni%C3%B3n" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 22px; border-radius: 8px; border: 1.5px solid #1B5355; color: #1B5355; font-size: 16px; font-weight: 500; text-decoration: none; box-sizing: border-box; background: rgba(242, 247, 247, 0.72); backdrop-filter: blur(14px);">Agendar reunión</a>
+</header>
+
+<!-- Portada -->
+<section aria-label="Portada" style="max-width: 1200px; margin: 0 auto; padding: 64px 40px 96px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 48px; align-items: center;">
+  <div style="display: flex; flex-direction: column; gap: 24px;">
+    <p style="margin: 0; font-size: 15px; font-weight: 500; color: #1B5355;">Sistemas simples para negocios que crecen</p>
+    <h1 style="margin: 0; font-family: 'Britti Sans', Inter, system-ui, sans-serif; font-size: clamp(52px, 6.4vw, 92px); line-height: 1.0; font-weight: 600; letter-spacing: -0.035em; color: #112B2C;">De lo complejo a lo simple</h1>
+    <p style="margin: 0; font-size: 20px; line-height: 1.5; color: #112B2C; max-width: 30em;">Ordenamos tu tienda, tus ventas y tus datos para que tu negocio crezca sin que todo dependa de vos.</p>
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px;">
+      <a href="https://wa.me/+543412753301?text=Hola%20GrowMind%2C%20quiero%20agendar%20una%20reuni%C3%B3n" style="display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 24px; border-radius: 8px; background: #1B5355; color: #FFFFFF; font-size: 16px; font-weight: 500; text-decoration: none;">
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"></path><path d="M16 3v4"></path><path d="M8 3v4"></path><path d="M4 11h16"></path></svg>
+        Agendar reunión
+      </a>
+      <a href="#servicios" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 24px; border-radius: 8px; border: 1.5px solid #1B5355; color: #1B5355; font-size: 16px; font-weight: 500; text-decoration: none; box-sizing: border-box;">Ver servicios</a>
+    </div>
+    <p style="margin: 0; font-size: 14px; color: #1B5355;">Diagnóstico inicial gratuito. Te respondemos en menos de 24 horas.</p>
+  </div>
+
+  <div aria-label="Ejemplo de tablero" style="background: #1B5355; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 16px;">
+    <div style="background: #FFFFFF; border: 1px solid #DFECEC; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px;">
+        <span style="font-size: 14px; color: #1B5355;">Ventas del mes</span>
+        <span style="font-size: 13px; color: #1B5355; background: #DFECEC; border-radius: 8px; padding: 4px 10px;">Ejemplo</span>
+      </div>
+      <div style="font-family: 'Britti Sans', Inter, system-ui, sans-serif; font-size: 54px; line-height: 1.1; font-weight: 600; letter-spacing: -0.01em; color: #1B5355;">[$ cifra]</div>
+      <div style="display: flex; align-items: flex-end; gap: 12px; height: 190px; border-bottom: 1px solid #DFECEC; padding-top: 8px;">
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px;"><span style="font-size: 12px; color: #1B5355;">[ ]</span><div style="width: 100%; height: 70px; background: #B7D6D7; border-radius: 4px 4px 0 0;"></div></div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px;"><span style="font-size: 12px; color: #1B5355;">[ ]</span><div style="width: 100%; height: 96px; background: #B7D6D7; border-radius: 4px 4px 0 0;"></div></div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px;"><span style="font-size: 12px; color: #1B5355;">[ ]</span><div style="width: 100%; height: 82px; background: #B7D6D7; border-radius: 4px 4px 0 0;"></div></div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px;"><span style="font-size: 12px; color: #1B5355;">[ ]</span><div style="width: 100%; height: 112px; background: #B7D6D7; border-radius: 4px 4px 0 0;"></div></div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px;"><span style="font-size: 12px; color: #1B5355;">[ ]</span><div style="width: 100%; height: 104px; background: #B7D6D7; border-radius: 4px 4px 0 0;"></div></div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px;"><span style="font-size: 12px; font-weight: 600; color: #1B5355;">[ ]</span><div style="width: 100%; height: 144px; background: #1B5355; border-radius: 4px 4px 0 0;"></div></div>
+      </div>
+      <div style="display: flex; gap: 12px; font-size: 12px; color: #1B5355;">
+        <span style="flex: 1; text-align: center;">May</span><span style="flex: 1; text-align: center;">Jun</span><span style="flex: 1; text-align: center;">Jul</span><span style="flex: 1; text-align: center;">Ago</span><span style="flex: 1; text-align: center;">Sep</span><span style="flex: 1; text-align: center; font-weight: 600;">Oct</span>
+      </div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+      <div style="background: #FFFFFF; border: 1px solid #DFECEC; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 14px; color: #1B5355;">Pedidos</span><span style="font-family: 'Britti Sans', Inter, system-ui, sans-serif; font-size: 32px; font-weight: 600; color: #1B5355;">[ ]</span></div>
+      <div style="background: #FFFFFF; border: 1px solid #DFECEC; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 14px; color: #1B5355;">Productos con poco stock</span><span style="font-family: 'Britti Sans', Inter, system-ui, sans-serif; font-size: 32px; font-weight: 600; color: #1B5355;">[ ]</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Problemas -->
+<section id="problemas" aria-label="Problemas" style="border-top: 1px solid #DFECEC; padding: 96px 40px; min-height: 640px; box-sizing: border-box;">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 48px 24px; align-items: center;">
+    <p style="flex: 0 1 260px; margin: 0; font-size: 15px; line-height: 1.4; color: #112B2C; align-self: flex-start;">Problemas<br>que ordenamos</p>
+    <div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 48px;">
+      <div style="perspective: 1200px; overflow: hidden; padding: 8px 0 4px;">
+        <p style="margin: 0; font-family: 'Britti Sans', Inter, system-ui, sans-serif; font-size: clamp(44px, 6.2vw, 92px); line-height: 1.04; font-weight: 600; letter-spacing: -0.035em;">
+          <span style="display: block; color: #112B2C;">Respondés lo mismo</span>
+          <span style="display: block; color: #338284;">todos los días.</span>
+        </p>
+        <p aria-hidden="true" style="margin: 8px 0 0; font-family: 'Britti Sans', Inter, system-ui, sans-serif; font-size: clamp(44px, 6.2vw, 92px); line-height: 1.04; font-weight: 600; letter-spacing: -0.035em; color: #112B2C; opacity: 0.18; transform: rotateX(62deg); transform-origin: top center; height: 0.55em; overflow: hidden;">Tus datos están</p>
+      </div>
+      <div style="display: flex; align-items: center; gap: 16px; font-size: 14px; color: #1B5355;">
+        <span>1 de 5</span>
+        <span style="width: 120px; height: 2px; background: #DFECEC; border-radius: 2px; overflow: hidden; display: block;"><span style="display: block; width: 20%; height: 100%; background: #1B5355;"></span></span>
+        <span>Seguí bajando</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Diagrama: de lo complejo a lo simple -->
+<section aria-label="De lo complejo a lo simple" style="max-width: 1200px; margin: 0 auto; padding: 32px 40px 96px;">
+  <div style="background: #FFFFFF; border: 1px solid #DFECEC; border-radius: 16px; padding: 48px 40px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 40px;">
+    <div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 20px;">
+      <p style="margin: 0; font-size: 14px; font-weight: 500; color: #1B5355;">Hoy: cada cosa por su lado</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 16px 20px; padding: 8px 0;">
+        <span style="padding: 12px 20px; border: 1px solid #B7D6D7; border-radius: 8px; font-size: 16px; transform: rotate(-4deg);">Planillas</span>
+        <span style="padding: 12px 20px; border: 1px solid #B7D6D7; border-radius: 8px; font-size: 16px; transform: rotate(3deg) translateY(10px);">Chats</span>
+        <span style="padding: 12px 20px; border: 1px solid #B7D6D7; border-radius: 8px; font-size: 16px; transform: rotate(-2deg) translateY(-6px);">Tienda</span>
+        <span style="padding: 12px 20px; border: 1px solid #B7D6D7; border-radius: 8px; font-size: 16px; transform: rotate(5deg);">Publicidad</span>
+        <span style="padding: 12px 20px; border: 1px solid #B7D6D7; border-radius: 8px; font-size: 16px; transform: rotate(-3deg) translateY(8px);">Emails</span>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; color: #1B5355; font-size: 14px;">
+      <span>ordenamos</span>
+      <svg aria-hidden="true" width="64" height="24" viewBox="0 0 64 24" fill="none" stroke="#1B5355" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h58"></path><path d="M52 5l8 7l-8 7"></path></svg>
+    </div>
+    <div style="flex: 0 1 280px; border: 2px solid #1B5355; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; align-items: stretch; gap: 0; background: #F2F7F7;">
+      <p style="margin: 0 0 16px; font-size: 14px; font-weight: 500; color: #1B5355;">Con GrowMind: un solo flujo</p>
+      <span style="padding: 12px 16px; border: 1px solid #1B5355; border-radius: 8px; text-align: center; font-size: 16px; background: #FFFFFF;">Tienda</span>
+      <span aria-hidden="true" style="align-self: center; width: 1.5px; height: 18px; background: #1B5355; display: block;"></span>
+      <span style="padding: 12px 16px; border: 1px solid #1B5355; border-radius: 8px; text-align: center; font-size: 16px; background: #FFFFFF;">Clientes</span>
+      <span aria-hidden="true" style="align-self: center; width: 1.5px; height: 18px; background: #1B5355; display: block;"></span>
+      <span style="padding: 12px 16px; border: 1px solid #1B5355; border-radius: 8px; text-align: center; font-size: 16px; background: #FFFFFF;">Mensajes</span>
+      <span aria-hidden="true" style="align-self: center; width: 1.5px; height: 18px; background: #1B5355; display: block;"></span>
+      <span style="padding: 12px 16px; border-radius: 8px; text-align: center; font-size: 16px; font-weight: 600; background: #1B5355; color: #FFFFFF;">Tablero</span>
+    </div>
+  </div>
+</section>
+
+<!-- Servicios -->
+<section id="servicios" ref="{{ setSec }}" aria-label="Servicios" style="border-top: 1px solid #DFECEC; height: 3000px; position: relative;">
+  <div ref="{{ setStage }}" onMouseLeave="{{ clearHover }}" style="position: sticky; top: 0; height: {{ stageH }}px; overflow: hidden; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); column-gap: 24px; padding: 0 40px; box-sizing: border-box;">
+    <div style="display: flex; align-items: center;">
+      <h2 style="margin: 0; font-size: 18px; font-weight: 500; line-height: 1.4; color: #112B2C;">Qué hacemos: ordenar, vender y medir</h2>
+    </div>
+    <div style="position: relative; padding-left: 32px; min-width: 0; height: 100%; overflow: hidden;">
+      <sc-if value="{{ markerShow }}" hint-placeholder-val="{{ true }}">
+        <span aria-hidden="true" style="position: absolute; left: 0; top: {{ markerTop }}px; width: 10px; height: 10px; border-radius: 2px; background: #1B5355;"></span>
+      </sc-if>
+      <div style="transform: translateY({{ listY }}px); will-change: transform;">
+        <ul aria-hidden="true" style="list-style: none; margin: 0; padding: 0;">
+          <sc-for list="{{ before }}" as="item" hint-placeholder-count="7">
+            <li style="height: 48px; line-height: 48px; white-space: nowrap; font-family: 'Britti Sans', Inter, system-ui, sans-serif; font-size: 38px; font-weight: 600; letter-spacing: -0.025em; color: {{ item.color }}; opacity: {{ item.op }}; transition: color 180ms ease;">{{ item.name }}</li>
+          </sc-for>
+        </ul>
+        <ul aria-label="Servicios" style="list-style: none; margin: 0; padding: 0;">
+          <sc-for list="{{ middle }}" as="item" hint-placeholder-count="7">
+            <li>
+              <button type="button" onMouseMove="{{ item.move }}" onFocus="{{ item.focus }}" onBlur="{{ clearHover }}" style="display: block; width: 100%; height: 48px; line-height: 48px; padding: 0; background: none; border: none; text-align: left; white-space: nowrap; cursor: default; font-family: 'Britti Sans', Inter, system-ui, sans-serif; font-size: 38px; font-weight: 600; letter-spacing: -0.025em; color: {{ item.color }}; opacity: {{ item.op }}; transition: color 180ms ease;">{{ item.name }}</button>
+            </li>
+          </sc-for>
+        </ul>
+        <ul aria-hidden="true" style="list-style: none; margin: 0; padding: 0;">
+          <sc-for list="{{ after }}" as="item" hint-placeholder-count="7">
+            <li style="height: 48px; line-height: 48px; white-space: nowrap; font-family: 'Britti Sans', Inter, system-ui, sans-serif; font-size: 38px; font-weight: 600; letter-spacing: -0.025em; color: {{ item.color }}; opacity: {{ item.op }}; transition: color 180ms ease;">{{ item.name }}</li>
+          </sc-for>
+        </ul>
+      </div>
+    </div>
+    <sc-if value="{{ pop.show }}" hint-placeholder-val="{{ false }}">
+      <div role="tooltip" style="position: absolute; left: {{ pop.x }}px; top: {{ pop.y }}px; z-index: 5; width: 340px; box-sizing: border-box; pointer-events: none; background: #FFFFFF; border: 1px solid #DFECEC; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 8px 24px rgba(17, 43, 44, 0.08);">
+        <span style="align-self: flex-start; font-size: 13px; font-weight: 500; color: #1B5355; background: #DFECEC; border-radius: 8px; padding: 4px 10px;">{{ pop.line }}</span>
+        <p style="margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: #112B2C;">{{ pop.name }}</p>
+        <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #112B2C;">{{ pop.que }}</p>
+        <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #112B2C;"><strong>Qué cambia para vos:</strong> {{ pop.cambia }}</p>
+      </div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- Cómo trabajamos -->
+<section id="como-trabajamos" aria-label="Cómo trabajamos" style="border-top: 1px solid #DFECEC; padding: 96px 40px;">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px;">
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <h2 style="margin: 0; font-family: 'Britti Sans', Inter, system-ui, sans-serif; font-size: 50px; line-height: 1.05; font-weight: 600; letter-spacing: -0.02em;">Cómo trabajamos</h2>
+      <p style="margin: 0; font-size: 20px; line-height: 1.5;">Vamos de a un proceso por vez.</p>
+    </div>
+    <ol style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 24px;">
+      <li style="background: #FFFFFF; border: 1px solid #DFECEC; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1B5355" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"></path><path d="M16 3v4"></path><path d="M8 3v4"></path><path d="M4 11h16"></path></svg>
+        <span style="font-size: 14px; color: #1B5355;">Paso 1</span>
+        <h3 style="margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -0.01em;">Conversamos</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55;">Nos contás cómo trabajás hoy y hacemos un diagnóstico inicial gratuito.</p>
+      </li>
+      <li style="background: #FFFFFF; border: 1px solid #DFECEC; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1B5355" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 5.5l1.5 1.5l2.5 -2.5"></path><path d="M3.5 11.5l1.5 1.5l2.5 -2.5"></path><path d="M3.5 17.5l1.5 1.5l2.5 -2.5"></path><path d="M11 6l9 0"></path><path d="M11 12l9 0"></path><path d="M11 18l9 0"></path></svg>
+        <span style="font-size: 14px; color: #1B5355;">Paso 2</span>
+        <h3 style="margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -0.01em;">Ordenamos</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55;">Elegimos el proceso que más tiempo te saca y empezamos por ahí. Primero ordenamos tus datos. Después automatizamos.</p>
+      </li>
+      <li style="background: #FFFFFF; border: 1px solid #DFECEC; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1B5355" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path><path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path><path d="M17 17h-11v-14h-2"></path><path d="M6 5l14 1l-1 7h-13"></path></svg>
+        <span style="font-size: 14px; color: #1B5355;">Paso 3</span>
+        <h3 style="margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -0.01em;">Armamos</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55;">Construimos la solución con lo que ya usás, cuando sirve, y te explicamos cómo funciona en simple.</p>
+      </li>
+      <li style="background: #FFFFFF; border: 1px solid #DFECEC; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1B5355" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path><path d="M15 9a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path><path d="M9 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path><path d="M4 20h14"></path></svg>
+        <span style="font-size: 14px; color: #1B5355;">Paso 4</span>
+        <h3 style="margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -0.01em;">Medimos</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55;">Miramos qué cambió, ajustamos y pasamos al siguiente proceso.</p>
+      </li>
+    </ol>
+    <div style="display: flex; align-items: center; gap: 12px; padding-top: 16px; border-top: 1px dashed #B7D6D7; color: #1B5355; font-size: 16px;">
+      <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B5355" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex: none;"><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"></path><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"></path></svg>
+      <span>Al terminar de medir, elegimos el siguiente proceso y volvemos a ordenar.</span>
+    </div>
+  </div>
+</section>
+
+<!-- Trabajo -->
+<section id="trabajo" aria-label="Trabajo" style="border-top: 1px solid #DFECEC; padding: 96px 40px;">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px;">
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <h2 style="margin: 0; font-family: 'Britti Sans', Inter, system-ui, sans-serif; font-size: 50px; line-height: 1.05; font-weight: 600; letter-spacing: -0.02em;">Lo que armamos</h2>
+      <p style="margin: 0; font-size: 20px; line-height: 1.5; max-width: 36em;">Cada caso cuenta el problema, lo que hicimos y qué cambió.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 24px;">
+      <article style="background: #FFFFFF; border: 1px solid #DFECEC; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 16px;">
+        <div style="aspect-ratio: 4 / 3; background: #DFECEC; border-radius: 16px; display: flex; align-items: center; justify-content: center; padding: 24px; text-align: center; font-size: 14px; color: #1B5355;">[Captura del tablero de stock, sin datos sensibles]</div>
+        <div style="padding: 0 8px 8px; display: flex; flex-direction: column; gap: 12px;">
+          <span style="font-size: 14px; color: #1B5355;">Marca de jeans de hombre</span>
+          <h3 style="margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em;">Tablero de stock</h3>
+          <p style="margin: 0; font-size: 16px; line-height: 1.5;"><strong>Problema.</strong> El stock se llevaba en una planilla manual.</p>
+          <p style="margin: 0; font-size: 16px; line-height: 1.5;"><strong>Qué hicimos.</strong> Un tablero de stock que reemplaza la planilla.</p>
+          <p style="margin: 0; font-size: 16px; line-height: 1.5;"><strong>Qué cambió.</strong> [Dato real, con fecha]</p>
+        </div>
+      </article>
+      <article style="background: #FFFFFF; border: 1px solid #DFECEC; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 16px;">
+        <div style="aspect-ratio: 4 / 3; background: #DFECEC; border-radius: 16px; display: flex; align-items: center; justify-content: center; padding: 24px; text-align: center; font-size: 14px; color: #1B5355;">[Foto de producto: antes y después]</div>
+        <div style="padding: 0 8px 8px; display: flex; flex-direction: column; gap: 12px;">
+          <span style="font-size: 14px; color: #1B5355;">Marca de jeans de hombre</span>
+          <h3 style="margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em;">Fotos de producto con inteligencia artificial</h3>
+          <p style="margin: 0; font-size: 16px; line-height: 1.5;"><strong>Problema.</strong> [Problema en una frase]</p>
+          <p style="margin: 0; font-size: 16px; line-height: 1.5;"><strong>Qué hicimos.</strong> Fotos de producto hechas con inteligencia artificial, con el estilo de la marca.</p>
+          <p style="margin: 0; font-size: 16px; line-height: 1.5;"><strong>Qué cambió.</strong> [Dato real, con fecha]</p>
+        </div>
+      </article>
+      <article style="background: #FFFFFF; border: 1px solid #DFECEC; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 16px;">
+        <div style="aspect-ratio: 4 / 3; background: #DFECEC; border-radius: 16px; display: flex; align-items: center; justify-content: center; padding: 24px; text-align: center; font-size: 14px; color: #1B5355;">[Captura del sistema en uso]</div>
+        <div style="padding: 0 8px 8px; display: flex; flex-direction: column; gap: 12px;">
+          <span style="font-size: 14px; color: #1B5355;">Peluquería</span>
+          <h3 style="margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em;">[Título del caso]</h3>
+          <p style="margin: 0; font-size: 16px; line-height: 1.5;"><strong>Problema.</strong> [Problema en una frase]</p>
+          <p style="margin: 0; font-size: 16px; line-height: 1.5;"><strong>Qué hicimos.</strong> [Qué hicimos, en una frase]</p>
+          <p style="margin: 0; font-size: 16px; line-height: 1.5;"><strong>Qué cambió.</strong> [Dato real, con fecha]</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Preguntas -->
+<section id="preguntas" aria-label="Preguntas" style="border-top: 1px solid #DFECEC; padding: 96px 40px;">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 48px;">
+    <div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 16px; align-self: flex-start;">
+      <h2 style="margin: 0; font-family: 'Britti Sans', Inter, system-ui, sans-serif; font-size: 50px; line-height: 1.05; font-weight: 600; letter-spacing: -0.02em;">Preguntas</h2>
+      <p style="margin: 0; font-size: 18px; line-height: 1.55;">¿Te queda otra duda? <a href="#contacto" style="font-weight: 500;">Escribinos</a> y la vemos.</p>
+    </div>
+    <div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; border-bottom: 1px solid #DFECEC;">
+      <sc-for list="{{ faqs }}" as="item" hint-placeholder-count="6">
+        <div style="border-top: 1px solid #DFECEC;">
+          <button type="button" onClick="{{ item.toggle }}" aria-expanded="{{ item.expanded }}" style="width: 100%; min-height: 64px; display: flex; justify-content: space-between; align-items: center; gap: 16px; background: none; border: none; padding: 16px 0; text-align: left; cursor: pointer; font-size: 20px; font-weight: 500; color: #112B2C;">
+            <span>{{ item.q }}</span>
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B5355" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex: none; transform: {{ item.rot }};"><path d="M6 9l6 6l6 -6"></path></svg>
+          </button>
+          <sc-if value="{{ item.open }}" hint-placeholder-val="{{ false }}">
+            <p style="margin: 0; padding: 0 0 24px; font-size: 18px; line-height: 1.55; max-width: 38em; color: #112B2C;">{{ item.a }}</p>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- Cierre -->
+<section id="contacto" aria-label="Contacto" style="background: #1B5355; color: #F2F7F7; padding: 96px 40px;">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 64px;">
+    <h2 style="margin: 0; font-family: 'Britti Sans', Inter, system-ui, sans-serif; font-size: clamp(56px, 10.5vw, 160px); line-height: 0.98; font-weight: 600; letter-spacing: -0.045em; color: #F2F7F7;">
+      <span style="display: block;">Empecemos</span>
+      <span style="display: block; padding-left: 0.4em;">por lo simple.</span>
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 24px;">
+      <div style="border-top: 1px solid rgba(242, 247, 247, 0.55); padding-top: 24px; display: flex; flex-direction: column; gap: 24px; align-items: flex-start;">
+        <p style="margin: 0; font-size: 24px; font-weight: 500; line-height: 1.25; letter-spacing: -0.01em;">Un proceso por vez.</p>
+        <a href="#como-trabajamos" style="color: #F2F7F7; font-size: 16px; font-weight: 500; text-decoration: none; display: inline-flex; gap: 6px; align-items: center;">Ver cómo trabajamos <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7l-10 10"></path><path d="M8 7l9 0l0 9"></path></svg></a>
+      </div>
+      <div style="border-top: 1px solid rgba(242, 247, 247, 0.55); padding-top: 24px; display: flex; flex-direction: column; gap: 24px; align-items: flex-start;">
+        <p style="margin: 0; font-size: 24px; font-weight: 500; line-height: 1.25; letter-spacing: -0.01em;">Mirá lo que ya armamos.</p>
+        <a href="#trabajo" style="color: #F2F7F7; font-size: 16px; font-weight: 500; text-decoration: none; display: inline-flex; gap: 6px; align-items: center;">Ver casos <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7l-10 10"></path><path d="M8 7l9 0l0 9"></path></svg></a>
+      </div>
+      <div style="border-top: 1px solid rgba(242, 247, 247, 0.55); padding-top: 24px; display: flex; flex-direction: column; gap: 24px; align-items: flex-start;">
+        <p style="margin: 0; font-size: 24px; font-weight: 500; line-height: 1.25; letter-spacing: -0.01em;">Contanos cómo trabajás hoy.</p>
+        <a href="https://wa.me/+543412753301?text=Hola%20GrowMind%2C%20quiero%20agendar%20una%20reuni%C3%B3n" style="display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 24px; border-radius: 8px; background: #F2F7F7; color: #1B5355; font-size: 16px; font-weight: 500; text-decoration: none;">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9"></path><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1"></path></svg>
+          Escribinos por WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section><footer aria-label="Pie de página" style="background: #112B2C; color: #F2F7F7; padding: 96px 40px 40px;">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 64px;">
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <img src="/_blob/4ccb719d0a1cdbdb4c7ed879a3a7a425" alt="growmind" style="width: min(100%, 440px); height: auto; display: block;">
+      <p style="margin: 0; font-size: 18px; color: #B7D6D7;">Sistemas simples para negocios que crecen</p>
+    </div>
+    <div style="border-top: 1px solid #1B5355; padding-top: 48px; display: flex; flex-wrap: wrap; gap: 48px;">
+      <div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 16px;">
+        <h3 style="margin: 0; font-size: 18px; font-weight: 600;">Trabajemos juntos</h3>
+        <div style="display: flex; flex-direction: column; gap: 6px; font-size: 16px;">
+          <a href="mailto:admin@growmind.com.ar" style="color: #F2F7F7; text-decoration: none;">admin@growmind.com.ar</a>
+          <a href="tel:+543412753301" style="color: #F2F7F7; text-decoration: none;">+54 341 275 3301</a>
+          <span>Rosario, Argentina</span>
+          <span style="color: #B7D6D7;">[Horario de atención]</span>
+        </div>
+      </div>
+      <div style="flex: 2 1 480px; display: flex; flex-direction: column; gap: 16px;">
+        <h3 style="margin: 0; font-size: 18px; font-weight: 600;">Mapa del sitio</h3>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px 24px; font-size: 16px;">
+          <a href="#servicios" style="color: #F2F7F7; text-decoration: none;">Servicios</a>
+          <a href="#preguntas" style="color: #F2F7F7; text-decoration: none;">Preguntas</a>
+          <a href="#" style="color: #F2F7F7; text-decoration: none;">Instagram</a>
+          <a href="#como-trabajamos" style="color: #F2F7F7; text-decoration: none;">Cómo trabajamos</a>
+          <a href="#contacto" style="color: #F2F7F7; text-decoration: none;">Contacto</a>
+          <a href="#" style="color: #F2F7F7; text-decoration: none;">LinkedIn</a>
+          <a href="#trabajo" style="color: #F2F7F7; text-decoration: none;">Trabajo</a>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; font-size: 14px; color: #B7D6D7;">
+      <a href="#top" style="color: #F2F7F7; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px;"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6 -6l6 6"></path></svg>Volver arriba</a>
+      <span>© 2026 GrowMind</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Pie -->
+
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":9400}}'>
+class Component extends DCLogic {
+  componentDidMount() {
+    this._tick = () => {
+      if (this._raf) return;
+      this._raf = requestAnimationFrame(() => {
+        this._raf = null;
+        const el = this.secEl, stage = this.stageEl;
+        if (!el || !stage) return;
+        const r = el.getBoundingClientRect();
+        const k = el.offsetHeight ? r.height / el.offsetHeight : 1;
+        const total = el.offsetHeight - stage.offsetHeight;
+        const p = total > 0 ? Math.min(1, Math.max(0, (0 - r.top) / k / total)) : 0;
+        const sh = Math.max(600, Math.min(1000, window.innerHeight || 800));
+        const cur = (this.state && this.state.prog) || 0;
+        const curSh = (this.state && this.state.sh) || 0;
+        if (Math.abs(p - cur) > 0.0004 || sh !== curSh) this.setState({ prog: p, sh: sh });
+      });
+    };
+    window.addEventListener("scroll", this._tick, { passive: true });
+    document.addEventListener("scroll", this._tick, true);
+    window.addEventListener("resize", this._tick);
+    this._tick();
+  }
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this._tick);
+    document.removeEventListener("scroll", this._tick, true);
+    window.removeEventListener("resize", this._tick);
+    if (this._raf) cancelAnimationFrame(this._raf);
+  }
+  renderVals() {
+    const st = this.state || {};
+    const hover = (st.hover !== undefined) ? st.hover : -1;
+    const faqOpen = (st.faq !== undefined) ? st.faq : 0;
+    const S = [
+      { name: "Estrategia comercial", line: "Ordenar", que: "Definimos a quién le vendés, con qué condiciones y cómo, tanto en mayorista como en minorista. Te dejamos kits de venta listos para usar.", cambia: "Cada venta sigue las mismas reglas." },
+      { name: "Email, CRM y automatización", line: "Ordenar", que: "Juntamos tus contactos en un solo lugar (eso es un CRM) y dejamos que los mensajes repetidos salgan solos: bienvenida, carrito abandonado, recompra.", cambia: "Menos tareas manuales y ningún cliente que se pierda." },
+      { name: "Herramientas a medida", line: "Ordenar", que: "Si lo que necesitás no existe, lo armamos: una app o una conexión simple entre tus sistemas que resuelve tu problema puntual.", cambia: "Lo que hoy hacés a mano pasa a hacerse solo." },
+      { name: "Tienda online y conversión", line: "Vender", que: "Revisamos tu tienda: fichas de producto, páginas y proceso de compra. Mejoramos lo que frena la compra, que es lo que se llama CRO.", cambia: "Menos consultas repetidas y más compras terminadas." },
+      { name: "Publicidad paga", line: "Vender", que: "Definimos qué anunciar, a quién y cómo probarlo, con pruebas A/B (mostrar dos versiones y quedarnos con la que funciona mejor). Acompañamos la ejecución junto a tu equipo.", cambia: "Sabés en qué se va cada peso de publicidad." },
+      { name: "Contenido para tu tienda", line: "Vender", que: "Fotos de producto y piezas de contenido hechas con inteligencia artificial, con el estilo de tu marca.", cambia: "Tu tienda se ve cuidada sin una producción cada temporada." },
+      { name: "Datos y tableros", line: "Medir", que: "Armamos tableros, que son pantallas con tus ventas, tu stock y tus clientes, para que decidas mirando datos reales.", cambia: "Ves todo en un solo lugar." }
+    ];
+    const F = [
+      { q: "¿Necesito un gran presupuesto?", a: "No. Empezamos por lo que más te pesa hoy y vamos de a un proceso por vez, así el costo acompaña la etapa de tu negocio." },
+      { q: "¿Con qué tipo de negocios trabajan?", a: "Con emprendedores y PYMEs. Una peluquería y una marca de ropa venden distinto, pero suelen tener lo mismo: mucho trabajo manual y poca información." },
+      { q: "¿Puedo probar sin compromiso?", a: "Sí. Hacemos un diagnóstico inicial gratuito: miramos cómo trabajás hoy y te decimos qué ordenaríamos primero. Si no somos la mejor opción, también te lo decimos." },
+      { q: "¿Cuánto tarda en verse algo?", a: "Depende del proceso. Lo primero que ves es orden: qué pasa en tu negocio y dónde se va el tiempo. Los resultados en ventas dependen del punto de partida, y los medimos juntos." },
+      { q: "¿Qué pasa si ya uso herramientas?", a: "Partimos de lo que ya tenés. Si algo funciona, lo conectamos. Si algo no te sirve, te lo decimos y proponemos un cambio." },
+      { q: "¿Qué herramientas usan?", a: "Las que tengan sentido para tu caso, casi siempre las que ya usás. Antes de armar nada, te explicamos qué cambia en tu día a día." }
+    ];
+    const N = S.length, H = 48, STAGE = st.sh || 800;
+    const f = (st.prog || 0) * (N - 1);
+    const fi = hover >= 0 ? hover : Math.round(f);
+    const center = N + f;
+    if (!this._refs) {
+      this._refs = { sec: (el) => { this.secEl = el; }, stage: (el) => { this.stageEl = el; } };
+    }
+    const place = (i, cx, cy) => {
+      const el = this.stageEl;
+      if (!el) { this.setState({ hover: i, x: 0, y: 0 }); return; }
+      const r = el.getBoundingClientRect();
+      const k = el.offsetWidth ? r.width / el.offsetWidth : 1;
+      const w = el.offsetWidth || 1200;
+      const x = (cx - r.left) / k, y = (cy - r.top) / k;
+      this.setState({ hover: i, x: Math.max(0, Math.min(x + 24, w - 364)), y: Math.max(16, Math.min(y + 24, STAGE - 300)) });
+    };
+    const row = (s, gi) => {
+      const d = Math.abs(gi - center);
+      const op = d <= 4 ? 1 : (d >= 7.5 ? 0 : 1 - (d - 4) / 3.5);
+      const dr = Math.abs(gi - (N + fi));
+      const color = dr === 0 ? "#112B2C" : (dr === 1 ? "#338284" : "#B7D6D7");
+      return { name: s.name, op: op.toFixed(3), color: color };
+    };
+    const cur = hover >= 0 ? S[hover] : S[0];
+    return {
+      setSec: this._refs.sec,
+      setStage: this._refs.stage,
+      clearHover: () => this.setState({ hover: -1 }),
+      markerShow: hover < 0,
+      stageH: STAGE,
+      markerTop: (STAGE / 2 - 5).toFixed(0),
+      listY: (STAGE / 2 - center * H - H / 2).toFixed(1),
+      before: S.map((s, i) => row(s, i)),
+      middle: S.map((s, i) => Object.assign(row(s, N + i), {
+        move: (e) => place(i, e.clientX, e.clientY),
+        focus: (e) => { const b = e.currentTarget.getBoundingClientRect(); place(i, b.left + 40, b.bottom - 16); }
+      })),
+      after: S.map((s, i) => row(s, 2 * N + i)),
+      pop: { show: hover >= 0, x: st.x || 0, y: st.y || 0, name: cur.name, line: cur.line, que: cur.que, cambia: cur.cambia },
+      faqs: F.map((q, i) => Object.assign({}, q, {
+        open: i === faqOpen,
+        expanded: i === faqOpen ? "true" : "false",
+        rot: i === faqOpen ? "rotate(180deg)" : "none",
+        toggle: () => this.setState({ faq: faqOpen === i ? -1 : i })
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

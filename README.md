@@ -5,12 +5,15 @@ Sitio estático (HTML/CSS/JS puro, sin backend ni dependencias) que reemplaza la
 ## Estructura
 
 ```
-index.html        página única con todas las secciones (Home, Servicios, FAQs, Contacto)
-assets/style.css  estilos
-assets/script.js  menú mobile + año del footer
-assets/favicon.svg
-CNAME             dominio propio (growmind.com.ar) para GitHub Pages
+index.html          página única: Portada, Problemas, Diagrama, Servicios, Cómo trabajamos, Trabajo, Preguntas, Contacto y Pie
+assets/style.css    estilos (tokens de marca como variables CSS)
+assets/script.js    menú, giro 3D de Problemas, listado de Servicios con foco y ficha
+assets/logos/       logo en SVG (Regular, petróleo y blanco)
+assets/favicon.svg  g provisoria
+growmind-web-handoff/   brief, contenido, maqueta y sistema de diseño de referencia
 ```
+
+Pendientes marcados entre corchetes en la página: casos de Trabajo, horario, enlaces de Instagram y LinkedIn, cifras del tablero de la portada e imagen para compartir el link (`og:image`, 1200 × 630 px). Britti Sans todavía no está cargada: se ve Inter, y la familia ya está lista en `--display`.
 
 El contacto no usa formulario: el botón "Escribinos por WhatsApp" abre un chat directo al +54 341 275 3301, y también están el mail y el teléfono como enlaces clickeables.
 
