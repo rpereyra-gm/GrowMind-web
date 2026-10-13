@@ -35,7 +35,7 @@ Todos los textos reemplazan a los de la web actual. Voseo, frases cortas, senten
 | --- | --- |
 | Descriptor (arriba del título) | Sistemas simples para negocios que crecen |
 | Título | De lo complejo a lo simple |
-| Bajada | Ordenamos tu tienda, tus ventas y tus datos para que tu negocio crezca sin que todo dependa de vos. |
+| Bajada | Digitalizamos los procesos que hoy te sacan tiempo, para que tu negocio crezca sin que todo dependa de vos. |
 | Botón principal | Agendar reunión |
 | Botón secundario | Ver servicios |
 | Línea chica bajo los botones | Diagnóstico inicial gratuito. Te respondemos en menos de 24 horas. |
