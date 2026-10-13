@@ -364,18 +364,21 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
   width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; cursor: default;
   color: var(--p50); border: 1.5px solid transparent;
   opacity: 0; transform: translateX(16px) scale(.6);
-  transition: opacity .15s, transform .35s cubic-bezier(.65, 0, .35, 1), border-color .18s;
+  transition: opacity .15s, transform .3s cubic-bezier(.65, 0, .35, 1), border-color .1s;
 }
 .follow-link .icon { width: 24px; height: 24px; }
 .follow:hover .follow-icons, .follow:focus-within .follow-icons { pointer-events: auto; }
-/* Al abrir, cada ícono entra con su retraso y un resorte (rebote) */
+/* Al abrir, cada ícono entra con su retraso y un resorte. El retraso vive solo en la animación de entrada:
+   una vez abierto, pasar de un ícono a otro responde al instante. */
 .follow:hover .follow-link, .follow:focus-within .follow-link {
   opacity: .85; transform: none;
-  transition: opacity .2s, transform .55s cubic-bezier(.34, 1.56, .64, 1), border-color .18s;
+  animation: follow-in .55s cubic-bezier(.34, 1.56, .64, 1) backwards;
+  transition: opacity .08s, border-color .08s;
 }
-.follow:hover .follow-link:nth-child(1), .follow:focus-within .follow-link:nth-child(1) { transition-delay: .16s; }
-.follow:hover .follow-link:nth-child(2), .follow:focus-within .follow-link:nth-child(2) { transition-delay: .26s; }
-.follow-link:hover, .follow-link:focus-visible { opacity: 1 !important; border-color: var(--p50); outline: none; }
+.follow:hover .follow-link:nth-child(1), .follow:focus-within .follow-link:nth-child(1) { animation-delay: .12s; }
+.follow:hover .follow-link:nth-child(2), .follow:focus-within .follow-link:nth-child(2) { animation-delay: .22s; }
+@keyframes follow-in { from { opacity: 0; transform: translateX(16px) scale(.6); } to { opacity: .85; transform: none; } }
+.follow:hover .follow-link:hover, .follow:focus-within .follow-link:focus-visible { opacity: 1; border-color: var(--p50); outline: none; }
 .follow:hover .follow-share, .follow:focus-within .follow-share { opacity: 0; transform: scale(.6); }
 .follow:hover .follow-label, .follow:focus-within .follow-label { transform: translate(32px, -32px); }
 
@@ -423,7 +426,7 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 /* Sin animación: todo queda a la vista, una cosa debajo de otra */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .follow-label, .follow-icons, .follow-link, .follow-share { transition: none; }
+  .follow-label, .follow-icons, .follow-link, .follow-share { transition: none; animation: none !important; }
   .js .problems { height: auto; }
   .js .problems .stage { position: static; height: auto; padding-top: 64px; padding-bottom: 64px; }
   .js .problems .label { margin-top: 0; }
