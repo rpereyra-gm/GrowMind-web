@@ -35,7 +35,7 @@ Todos los textos reemplazan a los de la web actual. Voseo, frases cortas, senten
 | --- | --- |
 | Descriptor (arriba del título) | Sistemas simples para negocios que crecen |
 | Título | De lo complejo a lo simple |
-| Bajada | Digitalizamos los procesos que hoy te sacan tiempo, para que tu negocio crezca sin que todo dependa de vos. |
+| Bajada | Digitalizamos los procesos que hoy te sacan tiempo, para que tu negocio crezca. |
 | Botón principal | Agendar reunión |
 | Botón secundario | Ver servicios |
 | Línea chica bajo los botones | Diagnóstico inicial gratuito. Te respondemos en menos de 24 horas. |
@@ -46,9 +46,9 @@ Todos los textos reemplazan a los de la web actual. Voseo, frases cortas, senten
 | --- | --- |
 | Etiqueta (izquierda) | Problemas que ordenamos |
 | Frase 1 | Se repiten las mismas / consultas todos los días. |
-| Frase 2 | Tus datos están / por todos lados. |
-| Frase 3 | Invertís en publicidad / y no sabés qué devuelve. |
-| Frase 4 | No hay una forma simple de / ver cómo viene el negocio. |
+| Frase 2 | Los datos están / por todos lados. |
+| Frase 3 | Hay tareas a mano / que podrían hacerse solas. |
+| Frase 4 | Cuesta ver cómo / viene el negocio. |
 | Frase 5 (cierre) | Si un proceso lleva más tiempo / del que devuelve, lo ordenamos. |
 
 Cada frase va en dos líneas, separadas acá con una barra: la primera en tinta y la segunda en petróleo 600. El paso de una frase a otra está en Movimiento y referencias.
@@ -61,7 +61,7 @@ Los cinco servicios actuales se agrupan en las tres líneas que la guía de marc
 | --- | --- |
 | Título de la sección | Qué hacemos |
 | Bajada | Ordenamos, vendemos y medimos con vos, de a un proceso por vez. |
-| Línea 1 (ícono list-check) | **Ordenar.** Que tu negocio funcione sin depender de vos para todo. |
+| Línea 1 (ícono list-check) | **Ordenar.** Que los procesos de tu negocio funcionen ordenados, sin planillas sueltas. |
 | Línea 2 (ícono shopping-cart) | **Vender.** Que comprarte no tenga trabas. |
 | Línea 3 (ícono chart-bar) | **Medir.** Saber qué pasa en tu negocio sin armar planillas. |
 
