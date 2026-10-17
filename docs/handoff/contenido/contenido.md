@@ -48,8 +48,8 @@ Todos los textos reemplazan a los de la web actual. Voseo, frases cortas, senten
 | Frase 1 | Se repiten las mismas / consultas todos los días. |
 | Frase 2 | Tus datos están / por todos lados. |
 | Frase 3 | Invertís en publicidad / y no sabés qué devuelve. |
-| Frase 4 | Tu tienda tiene visitas / pero cuesta que compren. |
-| Frase 5 (cierre) | Si te pide más tiempo / del que da, lo ordenamos. |
+| Frase 4 | No hay una forma simple de / ver cómo viene el negocio. |
+| Frase 5 (cierre) | Si un proceso lleva más tiempo / del que devuelve, lo ordenamos. |
 
 Cada frase va en dos líneas, separadas acá con una barra: la primera en tinta y la segunda en petróleo 600. El paso de una frase a otra está en Movimiento y referencias.
 

@@ -191,7 +191,7 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .label { font-size: 15px; line-height: 1.4; align-self: start; }
 .main { display: grid; gap: 48px; min-width: 0; }
 .window {
-  display: grid; font-size: clamp(40px, 5.2vw, 76px);
+  display: grid; font-size: clamp(36px, 4.6vw, 68px);
   perspective: 800px; perspective-origin: 15% 50%;
 }
 .phrase {
