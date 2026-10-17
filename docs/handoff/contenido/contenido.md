@@ -45,7 +45,7 @@ Todos los textos reemplazan a los de la web actual. Voseo, frases cortas, senten
 | Elemento | Texto |
 | --- | --- |
 | Etiqueta (izquierda) | Problemas que ordenamos |
-| Frase 1 | Respondés lo mismo / todos los días. |
+| Frase 1 | Se repiten las mismas / consultas todos los días. |
 | Frase 2 | Tus datos están / por todos lados. |
 | Frase 3 | Invertís en publicidad / y no sabés qué devuelve. |
 | Frase 4 | Tu tienda tiene visitas / pero cuesta que compren. |
