@@ -55,7 +55,7 @@
   var h1 = $('#hero-h1'), heroLead = $('#hero-lead'), heroDesc = $('#hero-desc');
   var heroBtns = $('#hero-btns'), heroCue = $('#hero-cue');
   var brand = $('.brand', document), menuEls = [$('#main-nav'), $('.btn-nav'), $('#nav-toggle')];
-  var heroGeo = null;
+  var heroGeo = null, heroMax = 0, heroCollapsed = false;
   if (!reduce.matches) {
     [heroDesc, h1, heroLead].forEach(function (el) { splitLetters(el, 0, 0, true); el.classList.add('scrub'); });
   }
@@ -103,7 +103,17 @@
     if (reduce.matches || !heroGeo) return;
     var r = heroEl.getBoundingClientRect();
     var total = heroEl.offsetHeight - window.innerHeight;
-    var P = total > 0 ? clamp(-r.top / total, 0, 1) : 1;
+    var Praw = total > 0 ? clamp(-r.top / total, 0, 1) : 1;
+    // La presentación se ve una sola vez: al volver hacia arriba, el logo y el texto quedan donde llegaron.
+    heroMax = Math.max(heroMax, Praw);
+    var P = heroMax;
+    // Ya presentada y fuera de pantalla: la portada pasa a medir una pantalla para no dejar un tramo muerto de scroll.
+    if (!heroCollapsed && heroMax >= 0.8 && r.bottom < 0) {
+      var oldH = heroEl.offsetHeight;
+      heroEl.style.height = '100svh';
+      window.scrollBy(0, heroEl.offsetHeight - oldH);
+      heroCollapsed = true;
+    }
     var e = inOut(seg(P, 0, 0.40));              // 0 = logo grande y centrado, 1 = en su lugar
     var k = 1 - e;
     brand.style.transform = 'translate(' + (heroGeo.tx * k).toFixed(1) + 'px,' + (heroGeo.ty * k).toFixed(1) + 'px) scale(' + (1 + (heroGeo.s0 - 1) * k).toFixed(4) + ')';
