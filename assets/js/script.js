@@ -17,6 +17,41 @@
   var SPRING = springEasing(170, 15, 0.9);
   var EASE_IO = 'cubic-bezier(.65, 0, .35, 1)';
 
+  /* ---------- Portada: las palabras llegan en cascada, de izquierda a derecha, saliendo del desenfoque ---------- */
+  var heroEl = $('#portada');
+  function splitWords(el, start, step) {
+    var text = el.textContent.trim().replace(/\s+/g, ' ');
+    var holders = $$('span', el).length ? $$('span', el) : [el];
+    var n = 0;
+    var full = document.createElement('span');
+    full.className = 'sr';
+    full.textContent = text;
+    holders.forEach(function (holder) {
+      var words = holder.textContent.trim().split(' ');
+      holder.textContent = '';
+      words.forEach(function (w, i) {
+        var sp = document.createElement('span');
+        sp.className = 'w';
+        sp.setAttribute('aria-hidden', 'true');
+        sp.style.setProperty('--d', (start + n * step) + 'ms');
+        sp.textContent = w;
+        holder.appendChild(sp);
+        if (i < words.length - 1) holder.appendChild(document.createTextNode(' '));
+        n++;
+      });
+      holder.appendChild(document.createTextNode(' '));
+    });
+    el.insertBefore(full, el.firstChild);
+    return start + n * step;
+  }
+  if (!reduce.matches) {
+    var h1 = $('h1', heroEl), lead = $('.lead', heroEl);
+    var endTitle = splitWords(h1, 120, 95);
+    splitWords(lead, endTitle - 60, 26);
+    var go = function () { heroEl.classList.add('hero-go'); };
+    if (document.fonts && document.fonts.ready) { Promise.race([document.fonts.ready, new Promise(function (r) { setTimeout(r, 700); })]).then(go); } else { go(); }
+  }
+
   /* ---------- Menú: sección activa, tono claro/oscuro y botón ---------- */
   var header = $('#site-header');
   var toggle = $('#nav-toggle');

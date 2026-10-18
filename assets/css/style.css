@@ -159,7 +159,15 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .hero-text { display: flex; flex-direction: column; gap: 24px; }
 .descriptor { font-size: 15px; font-weight: 500; color: var(--p800); }
 .hero h1 { font-size: clamp(44px, 5.6vw, 84px); line-height: 1; letter-spacing: -0.015em; }
-.hero h1 span { display: block; }
+.hero h1 > span:not(.sr) { display: block; }
+.hero .w { display: inline-block; opacity: 0; }
+.hero-go .w { animation: word-in .95s cubic-bezier(.22, .8, .25, 1) var(--d, 0ms) both; }
+@keyframes word-in {
+  0% { opacity: 0; filter: blur(16px); transform: translateY(.22em); }
+  55% { opacity: .55; filter: blur(5px); }
+  100% { opacity: 1; filter: none; transform: none; }
+}
+
 .hero .lead { max-width: 30em; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
 
@@ -440,6 +448,7 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 /* Sin animación: todo queda a la vista, una cosa debajo de otra */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .hero .w { opacity: 1; animation: none; }
   .follow-label, .follow-icons, .follow-link, .follow-share { transition: none; animation: none !important; }
   .js .problems { height: auto; }
   .js .diagram-1 { height: auto; padding: 32px 0 var(--section); }
