@@ -38,7 +38,6 @@ Todos los textos reemplazan a los de la web actual. Voseo, frases cortas, senten
 | Bajada | Digitalizamos los procesos que hoy te sacan tiempo, para que tu negocio crezca. |
 | Botón principal | Agendar reunión |
 | Botón secundario | Ver servicios |
-| Línea chica bajo los botones | Diagnóstico inicial gratuito. Te respondemos en menos de 24 horas. |
 
 **Problemas**
 

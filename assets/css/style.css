@@ -160,7 +160,6 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .hero h1 span { display: block; }
 .hero .lead { max-width: 30em; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
-.fine { font-size: 14px; color: var(--p800); }
 
 .board { background: var(--p800); border-radius: var(--r-xl); padding: 32px; display: flex; flex-direction: column; gap: 16px; }
 .card { background: #fff; border: 1px solid var(--p100); border-radius: var(--r-lg); color: var(--p900); }
