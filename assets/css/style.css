@@ -215,6 +215,10 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 
 /* Diagrama 1 */
 .diagram-1 { padding: 32px 0 var(--section); }
+/* Con JS la sección queda fija mientras el diagrama se arma, como Problemas y Servicios */
+.js .diagram-1 { height: 200vh; padding: 0; }
+.js .diagram-1 .container { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; align-items: center; }
+.js .diagram-1 .diagram { width: 100%; }
 .diagram {
   background: #fff; border: 1px solid var(--p100); border-radius: var(--r-xl); padding: 48px 40px;
   display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 40px;
@@ -436,6 +440,8 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
   html { scroll-behavior: auto; }
   .follow-label, .follow-icons, .follow-link, .follow-share { transition: none; animation: none !important; }
   .js .problems { height: auto; }
+  .js .diagram-1 { height: auto; padding: 32px 0 var(--section); }
+  .js .diagram-1 .container { position: static; height: auto; display: block; }
   .js .problems .stage { position: static; height: auto; padding-top: 64px; padding-bottom: 64px; }
   .js .problems .label { margin-top: 0; }
   .window { display: block; perspective: none; }

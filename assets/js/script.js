@@ -147,11 +147,14 @@
 
   /* ---------- Diagrama: de lo complejo a lo simple, ligado al scroll ---------- */
   var diagram = $('#diagram');
+  var diagramSec = $('#diagram-sec');
   var diagP = -1;
   function updateDiagram() {
     if (reduce.matches) { diagram.style.removeProperty('--p'); return; }
-    var r = diagram.getBoundingClientRect(), vh = window.innerHeight;
-    var p = clamp((vh * 0.92 - r.top) / (vh * 0.55), 0, 1);
+    var r = diagramSec.getBoundingClientRect();
+    var total = diagramSec.offsetHeight - window.innerHeight;
+    // 0 cuando la sección se fija; llega a 1 al 80 % del recorrido y se queda un tramo con el diagrama completo
+    var p = total > 0 ? clamp(-r.top / (total * 0.8), 0, 1) : 1;
     if (Math.abs(p - diagP) > 0.002) { diagP = p; diagram.style.setProperty('--p', p.toFixed(3)); }
   }
 
