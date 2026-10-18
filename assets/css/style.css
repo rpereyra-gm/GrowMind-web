@@ -222,13 +222,20 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .d-before { flex: 1 1 320px; display: flex; flex-direction: column; gap: 20px; }
 .d-label { font-size: 14px; font-weight: 500; color: var(--p800); }
 .scatter { display: flex; flex-wrap: wrap; gap: 16px 20px; padding: 8px 0; }
-.scatter span { padding: 12px 20px; border: 1px solid var(--p200); border-radius: var(--r-md); font-size: 16px; transform: rotate(var(--r)) translateY(var(--y)); }
-.d-arrow { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--p800); font-size: 14px; }
+/* Animación ligada al scroll: --p va de 0 a 1 mientras el diagrama sube por la pantalla.
+   Primero las piezas sueltas se enderezan (--q) y después el flujo se arma paso a paso. */
+.diagram { --p: 1; --q: clamp(0, calc(var(--p) * 1.6), 1); }
+.scatter span {
+  padding: 12px 20px; border: 1px solid color-mix(in srgb, var(--p800) calc(var(--q) * 100%), var(--p200));
+  border-radius: var(--r-md); font-size: 16px;
+  transform: rotate(calc(var(--r) * (1 - var(--q)))) translateY(calc(var(--y) * (1 - var(--q))));
+}
+.d-arrow { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--p800); font-size: 14px; opacity: var(--q); }
 .d-after { flex: 0 1 280px; border: 2px solid var(--p800); border-radius: var(--r-lg); padding: 20px; background: var(--p50); display: flex; flex-direction: column; }
 .d-after .d-label { margin-bottom: 16px; }
-.node { padding: 12px 16px; border: 1px solid var(--p800); border-radius: var(--r-md); text-align: center; font-size: 16px; background: #fff; }
+.node { --k: clamp(0, calc(var(--p) * 6 - var(--i)), 1); opacity: var(--k); transform: translateY(calc((1 - var(--k)) * 14px)); padding: 12px 16px; border: 1px solid var(--p800); border-radius: var(--r-md); text-align: center; font-size: 16px; background: #fff; }
 .node-strong { background: var(--p800); color: #fff; font-weight: 600; }
-.d-after i { align-self: center; width: 1.5px; height: 18px; background: var(--p800); }
+.d-after i { --k: clamp(0, calc(var(--p) * 6 - var(--i)), 1); align-self: center; width: 1.5px; height: 18px; background: var(--p800); transform: scaleY(var(--k)); transform-origin: top; }
 
 /* Servicios */
 .services { position: relative; border-top: 1px solid var(--p100); }

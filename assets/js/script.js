@@ -145,6 +145,16 @@
     fill.style.width = (probP * 100).toFixed(1) + '%';
   }
 
+  /* ---------- Diagrama: de lo complejo a lo simple, ligado al scroll ---------- */
+  var diagram = $('#diagram');
+  var diagP = -1;
+  function updateDiagram() {
+    if (reduce.matches) { diagram.style.removeProperty('--p'); return; }
+    var r = diagram.getBoundingClientRect(), vh = window.innerHeight;
+    var p = clamp((vh * 0.92 - r.top) / (vh * 0.55), 0, 1);
+    if (Math.abs(p - diagP) > 0.002) { diagP = p; diagram.style.setProperty('--p', p.toFixed(3)); }
+  }
+
   /* ---------- Servicios: listado en tres copias con foco central ---------- */
   var svc = $('#servicios');
   var stage = $('#svc-stage');
@@ -398,6 +408,7 @@
       onScrollQueued = false;
       updateHeader();
       updateProblems();
+      updateDiagram();
     });
   }
   function onResize() {
@@ -409,6 +420,7 @@
     pos = target;
     renderServices();
     updateProblems();
+    updateDiagram();
     probP = probT;
     if (!reduce.matches) renderProblems();
   }
