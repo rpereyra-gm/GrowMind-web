@@ -20,7 +20,7 @@
   /* ---------- Portada: las palabras llegan en cascada, de izquierda a derecha, saliendo del desenfoque ---------- */
   var heroEl = $('#portada');
   // Parte el texto en palabras (que no se cortan) y cada palabra en letras; cada letra lleva su retraso.
-  function splitLetters(el, start, step) {
+  function splitLetters(el, start, step, scrub) {
     var text = el.textContent.trim().replace(/\s+/g, ' ');
     var holders = $$('span', el).length ? $$('span', el) : [el];
     var n = 0;
@@ -32,12 +32,12 @@
       holder.textContent = '';
       words.forEach(function (w, i) {
         var wd = document.createElement('span');
-        wd.className = 'wd';
+        wd.className = scrub ? 'sw' : 'wd';
         wd.setAttribute('aria-hidden', 'true');
         w.split('').forEach(function (ch) {
           var l = document.createElement('span');
-          l.className = 'l';
-          l.style.setProperty('--d', (start + n * step) + 'ms');
+          l.className = scrub ? 'sl' : 'l';
+          if (scrub) l.style.setProperty('--i', n); else l.style.setProperty('--d', (start + n * step) + 'ms');
           l.textContent = ch;
           wd.appendChild(l);
           n++;
@@ -48,6 +48,7 @@
       holder.appendChild(document.createTextNode(' '));
     });
     el.insertBefore(full, el.firstChild);
+    if (scrub) el.style.setProperty('--n', n);
     return start + n * step;
   }
   if (!reduce.matches) {
@@ -56,6 +57,26 @@
     splitLetters(lead, endTitle - 250, 9);
     var go = function () { heroEl.classList.add('hero-go'); };
     if (document.fonts && document.fonts.ready) { Promise.race([document.fonts.ready, new Promise(function (r) { setTimeout(r, 700); })]).then(go); } else { go(); }
+  }
+
+  // Títulos de sección: las letras aparecen con el scroll (y se van al subir), con el desenfoque bajando al llegar
+  var scrubEls = [];
+  var scrubP = [];
+  if (!reduce.matches) {
+    $$('.section .head h2, .section .head .lead, .closing .big').forEach(function (el) {
+      splitLetters(el, 0, 0, true);
+      el.classList.add('scrub');
+      scrubEls.push(el);
+      scrubP.push(-1);
+    });
+  }
+  function updateScrub() {
+    var vh = window.innerHeight;
+    scrubEls.forEach(function (el, k) {
+      var r = el.getBoundingClientRect();
+      var p = clamp((vh * 0.96 - r.top) / (vh * 0.42), 0, 1);
+      if (Math.abs(p - scrubP[k]) > 0.002) { scrubP[k] = p; el.style.setProperty('--p', p.toFixed(3)); }
+    });
   }
 
   /* ---------- Menú: sección activa, tono claro/oscuro y botón ---------- */
@@ -453,6 +474,7 @@
       updateHeader();
       updateProblems();
       updateDiagram();
+      updateScrub();
     });
   }
   function onResize() {
@@ -465,6 +487,7 @@
     renderServices();
     updateProblems();
     updateDiagram();
+    updateScrub();
     probP = probT;
     if (!reduce.matches) renderProblems();
   }

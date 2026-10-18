@@ -224,6 +224,16 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .js .problems .label { margin-top: 18vh; }
 .js .phrase { will-change: transform, opacity; backface-visibility: hidden; }
 
+/* Texto que aparece con el scroll: --p (0 a 1) lo pone el script; cada letra calcula su propio avance.
+   Hay una ventana de 8 letras entre la que ya llegó y la que todavía está borrosa. */
+.sw { display: inline-block; white-space: nowrap; }
+.scrub { --p: 0; }
+.sl {
+  --t: clamp(0, calc((var(--p) * (var(--n) + 8) - var(--i)) / 8), 1);
+  display: inline-block; opacity: var(--t);
+  filter: blur(calc((1 - var(--t)) * 14px)); transform: translateY(calc((1 - var(--t)) * .32em));
+}
+
 /* Diagrama 1 */
 .diagram-1 { padding: 32px 0 var(--section); }
 /* Con JS la sección queda fija mientras el diagrama se arma, como Problemas y Servicios */
@@ -450,6 +460,7 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .hero .l { opacity: 1; animation: none; }
+  .sl { opacity: 1; filter: none; transform: none; }
   .follow-label, .follow-icons, .follow-link, .follow-share { transition: none; animation: none !important; }
   .js .problems { height: auto; }
   .js .diagram-1 { height: auto; padding: 32px 0 var(--section); }
