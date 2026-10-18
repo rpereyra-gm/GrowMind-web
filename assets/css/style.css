@@ -73,7 +73,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .container { max-width: calc(var(--container) + var(--margin) * 2); margin: 0 auto; padding: 0 var(--margin); }
 
 /* Tipografía */
-h1, h2, .display { font-family: var(--display); font-weight: 600; }
+h1, h2, .display { font-family: var(--display); font-weight: 600; text-wrap: balance; }
+p, li { text-wrap: pretty; }
 h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .lead { font-size: 20px; line-height: 1.5; max-width: 36em; }
 .head { display: flex; flex-direction: column; gap: 16px; }
@@ -83,8 +84,9 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
   display: inline-flex; align-items: center; gap: 8px; min-height: var(--control-h);
   padding: 0 24px; border-radius: var(--r-md); font-size: 16px; font-weight: 500;
   text-decoration: none; border: 1.5px solid transparent; cursor: pointer; white-space: nowrap;
-  transition: background-color .18s, color .18s, border-color .18s;
+  transition: background-color .18s, color .18s, border-color .18s, transform .12s;
 }
+.btn:active { transform: translateY(1px) scale(.985); }
 .btn-primary { background: var(--p800); color: #fff; }
 .btn-primary:hover { background: var(--p900); color: #fff; }
 .btn-secondary { border-color: var(--p800); color: var(--p800); background: transparent; }
