@@ -183,14 +183,14 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 /* Problemas: cubo que gira en vertical */
 .problems { position: relative; border-top: 1px solid var(--p100); }
 .stage {
-  display: grid; grid-template-columns: minmax(0, 22%) minmax(0, 1fr); column-gap: 24px;
+  display: grid; grid-template-columns: minmax(0, 18%) minmax(0, 1fr); column-gap: 24px;
   align-content: center; padding: 96px var(--margin); max-width: calc(var(--container) + var(--margin) * 2);
   margin: 0 auto; min-height: 640px;
 }
 .label { font-size: 15px; line-height: 1.4; align-self: start; }
 .main { display: grid; gap: 48px; min-width: 0; }
 .window {
-  display: grid; font-size: clamp(36px, 4.6vw, 68px);
+  display: grid; font-size: clamp(36px, 4.6vw, 64px);
   perspective: 800px; perspective-origin: 15% 50%;
 }
 .phrase {
@@ -198,6 +198,7 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
   letter-spacing: -0.015em; line-height: 1.04;
 }
 .phrase span { display: block; will-change: transform, opacity; }
+@media (min-width: 961px) { .phrase span { white-space: nowrap; } }
 .phrase { transform-style: preserve-3d; }
 .phrase .l1 { color: var(--p900); }
 .phrase .l2 { color: var(--p600); } /* 24 px o más */
