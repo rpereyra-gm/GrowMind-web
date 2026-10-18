@@ -93,7 +93,6 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .btn-secondary:hover { background: var(--p100); color: var(--p800); }
 .btn-on-dark { background: var(--p50); color: var(--p800); }
 .btn-on-dark:hover { background: var(--p100); color: var(--p800); }
-.hero .btn { min-height: 48px; }
 
 /* Menú */
 .site-header {
@@ -153,43 +152,23 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .site-header[data-tone="dark"] .btn-nav:hover { background: rgba(242, 247, 247, .28); }
 .nav-toggle { display: none; }
 
-/* Portada */
-.hero { padding: 200px 0 var(--section); }
-.hero-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 48px; align-items: center; }
-.hero-text { display: flex; flex-direction: column; gap: 24px; }
-.descriptor { font-size: 15px; font-weight: 500; color: var(--p800); }
-.hero h1 { font-size: clamp(44px, 5.6vw, 84px); line-height: 1; letter-spacing: -0.015em; }
+/* Portada: una pantalla fija; el logo del menú empieza grande y centrado y viaja a su lugar */
+.hero { padding: 0; }
+.hero-stage { min-height: 100vh; min-height: 100svh; display: flex; align-items: center; position: relative; }
+.js .hero { height: 380vh; }
+.js .hero-stage { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 0; }
+.hero-text { display: flex; flex-direction: column; gap: clamp(16px, 3vh, 32px); padding-top: 72px; }
+.descriptor { font-size: 16px; font-weight: 500; color: var(--p800); }
+.hero h1 { font-size: clamp(48px, 8.6vw, 136px); line-height: .98; letter-spacing: -0.02em; }
 .hero h1 > span:not(.sr) { display: block; }
-.hero .wd { display: inline-block; white-space: nowrap; }
-.hero .l { display: inline-block; opacity: 0; }
-/* Cada letra llega borrosa y el desenfoque baja a medida que se acerca a su lugar: al asentarse ya no tiene blur */
-.hero-go .l { animation: letter-in .62s cubic-bezier(.25, .46, .45, .94) var(--d, 0ms) both; }
-@keyframes letter-in {
-  from { opacity: 0; filter: blur(14px); transform: translateY(.32em); }
-  to { opacity: 1; filter: blur(0); transform: none; }
-}
-
-.hero .lead { max-width: 30em; }
+.hero .lead { font-size: clamp(18px, 1.9vw, 26px); max-width: 28em; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
-
-.board { background: var(--p800); border-radius: var(--r-xl); padding: 32px; display: flex; flex-direction: column; gap: 16px; }
-.card { background: #fff; border: 1px solid var(--p100); border-radius: var(--r-lg); color: var(--p900); }
-.board-main { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
-.board-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 14px; color: var(--p800); }
-.tag { font-size: 13px; background: var(--p100); border-radius: var(--r-md); padding: 4px 10px; }
-.figure { font-family: var(--display); font-size: 54px; line-height: 1.1; font-weight: 600; letter-spacing: -0.01em; color: var(--p800); }
-.bars { display: flex; align-items: flex-end; gap: 12px; height: 190px; border-bottom: 1px solid var(--p100); padding-top: 8px; }
-.bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.bar-col span { font-size: 12px; color: var(--p800); }
-.bar-col i { display: block; width: 100%; background: var(--p200); border-radius: 4px 4px 0 0; }
-.bar-col.is-strong i { background: var(--p800); }
-.bar-col.is-strong span, .axis .is-strong { font-weight: 600; }
-.axis { display: flex; gap: 12px; font-size: 12px; color: var(--p800); }
-.axis span { flex: 1; text-align: center; }
-.board-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.stat { padding: 20px; display: flex; flex-direction: column; gap: 6px; }
-.stat span { font-size: 14px; color: var(--p800); }
-.stat b { font-family: var(--display); font-size: 32px; font-weight: 600; color: var(--p800); }
+.hero .btn { min-height: 52px; font-size: 17px; padding: 0 28px; }
+.js .btn-row { opacity: var(--b, 1); transform: translateY(calc((1 - var(--b, 1)) * 18px)); }
+.hero-cue { position: absolute; left: 0; right: 0; bottom: clamp(20px, 5vh, 48px); text-align: center; font-size: 14px; color: var(--p800); opacity: var(--cue, 0); pointer-events: none; }
+/* El logo del menú se escala y se mueve desde JS; el menú aparece junto con ese viaje */
+.js .brand { transform-origin: 0 0; will-change: transform; }
+.js .site-header .pill, .js .site-header .btn-nav, .js .site-header .nav-toggle { opacity: var(--menu, 1); }
 
 /* Problemas: cubo que gira en vertical */
 .problems { position: relative; border-top: 1px solid var(--p100); }
@@ -434,7 +413,6 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
   }
   .site-header[data-tone="dark"] .pill { background: var(--p800); }
   .site-header.nav-open .pill { display: flex; }
-  .hero { padding-top: 130px; }
   .stage { grid-template-columns: 1fr; row-gap: 24px; }
   .js .problems .label { margin-top: 0; }
   .window { font-size: clamp(30px, 9vw, 48px); }
@@ -459,7 +437,10 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 /* Sin animación: todo queda a la vista, una cosa debajo de otra */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .hero .l { opacity: 1; animation: none; }
+  .js .hero { height: auto; }
+  .js .hero-stage { position: relative; height: auto; min-height: 100svh; }
+  .js .btn-row { opacity: 1; transform: none; }
+  .hero-cue { display: none; }
   .sl { opacity: 1; filter: none; transform: none; }
   .follow-label, .follow-icons, .follow-link, .follow-share { transition: none; animation: none !important; }
   .js .problems { height: auto; }

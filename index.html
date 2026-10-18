@@ -62,14 +62,14 @@
 
 <main>
 
-<!-- Portada -->
+<!-- Portada: logo grande que viaja al menú, luego título y bajada, luego botones. Todo ligado al scroll. -->
 <section class="hero" id="portada" aria-label="Portada">
-  <div class="container hero-grid">
-    <div class="hero-text">
-      <p class="descriptor">Sistemas simples para negocios que crecen</p>
-      <h1><span>De lo complejo</span> <span>a lo simple</span></h1>
-      <p class="lead">Digitalizamos los procesos que hoy te sacan tiempo, para que tu negocio crezca.</p>
-      <div class="btn-row">
+  <div class="hero-stage">
+    <div class="container hero-text">
+      <p class="descriptor" id="hero-desc">Sistemas simples para negocios que crecen</p>
+      <h1 id="hero-h1"><span>De lo complejo</span> <span>a lo simple</span></h1>
+      <p class="lead" id="hero-lead">Digitalizamos los procesos que hoy te sacan tiempo, para que tu negocio crezca.</p>
+      <div class="btn-row" id="hero-btns">
         <a class="btn btn-primary" href="https://wa.me/543412753301?text=Hola%20GrowMind%2C%20quiero%20agendar%20una%20reuni%C3%B3n">
           <svg class="icon" width="20" height="20" aria-hidden="true"><use href="#i-calendar"/></svg>
           Agendar reunión
@@ -77,29 +77,7 @@
         <a class="btn btn-secondary" href="#servicios">Ver servicios</a>
       </div>
     </div>
-
-    <div class="board" role="img" aria-label="Ejemplo de tablero con trabajo del mes, un gráfico de barras, pendientes y procesos automatizados. Las cifras todavía no están definidas.">
-      <div class="card board-main">
-        <div class="board-head">
-          <span>Trabajo del mes</span>
-          <span class="tag">Ejemplo</span>
-        </div>
-        <div class="figure">[$ cifra]</div>
-        <div class="bars">
-          <div class="bar-col"><span>[ ]</span><i style="height:70px"></i></div>
-          <div class="bar-col"><span>[ ]</span><i style="height:96px"></i></div>
-          <div class="bar-col"><span>[ ]</span><i style="height:82px"></i></div>
-          <div class="bar-col"><span>[ ]</span><i style="height:112px"></i></div>
-          <div class="bar-col"><span>[ ]</span><i style="height:104px"></i></div>
-          <div class="bar-col is-strong"><span>[ ]</span><i style="height:144px"></i></div>
-        </div>
-        <div class="axis"><span>May</span><span>Jun</span><span>Jul</span><span>Ago</span><span>Sep</span><span class="is-strong">Oct</span></div>
-      </div>
-      <div class="board-stats">
-        <div class="card stat"><span>Pendientes</span><b>[ ]</b></div>
-        <div class="card stat"><span>Procesos automatizados</span><b>[ ]</b></div>
-      </div>
-    </div>
+    <p class="hero-cue" id="hero-cue" aria-hidden="true">Seguí bajando</p>
   </div>
 </section>
 

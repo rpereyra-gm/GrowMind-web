@@ -18,6 +18,7 @@
   var EASE_IO = 'cubic-bezier(.65, 0, .35, 1)';
 
   /* ---------- Portada: las palabras llegan en cascada, de izquierda a derecha, saliendo del desenfoque ---------- */
+  var header = $('#site-header');
   var heroEl = $('#portada');
   // Parte el texto en palabras (que no se cortan) y cada palabra en letras; cada letra lleva su retraso.
   function splitLetters(el, start, step, scrub) {
@@ -51,12 +52,12 @@
     if (scrub) el.style.setProperty('--n', n);
     return start + n * step;
   }
+  var h1 = $('#hero-h1'), heroLead = $('#hero-lead'), heroDesc = $('#hero-desc');
+  var heroBtns = $('#hero-btns'), heroCue = $('#hero-cue');
+  var brand = $('.brand', document), menuEls = [$('#main-nav'), $('.btn-nav'), $('#nav-toggle')];
+  var heroGeo = null;
   if (!reduce.matches) {
-    var h1 = $('h1', heroEl), lead = $('.lead', heroEl);
-    var endTitle = splitLetters(h1, 100, 34);
-    splitLetters(lead, endTitle - 250, 9);
-    var go = function () { heroEl.classList.add('hero-go'); };
-    if (document.fonts && document.fonts.ready) { Promise.race([document.fonts.ready, new Promise(function (r) { setTimeout(r, 700); })]).then(go); } else { go(); }
+    [heroDesc, h1, heroLead].forEach(function (el) { splitLetters(el, 0, 0, true); el.classList.add('scrub'); });
   }
 
   // Títulos de sección: las letras aparecen con el scroll (y se van al subir), con el desenfoque bajando al llegar
@@ -79,8 +80,47 @@
     });
   }
 
+  /* ---------- Portada: logo grande -> esquina; luego título y bajada; luego botones ---------- */
+  // Tramos del recorrido P (0 a 1): logo 0-0.40 · título 0.36-0.75 · bajada 0.52-0.78 · botones 0.71-0.80
+  function seg(P, a, b) { return clamp((P - a) / (b - a), 0, 1); }
+  function inOut(x) { return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+
+  function measureHero() {
+    if (reduce.matches || !brand) return;
+    brand.style.transform = 'none';
+    var r = brand.getBoundingClientRect();
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var bigW = Math.min(vw * 0.62, 760);
+    var s0 = bigW / r.width;
+    heroGeo = {
+      s0: s0,
+      tx: (vw - bigW) / 2 - r.left,
+      ty: (vh - r.height * s0) / 2 - r.top
+    };
+  }
+
+  function updateHero() {
+    if (reduce.matches || !heroGeo) return;
+    var r = heroEl.getBoundingClientRect();
+    var total = heroEl.offsetHeight - window.innerHeight;
+    var P = total > 0 ? clamp(-r.top / total, 0, 1) : 1;
+    var e = inOut(seg(P, 0, 0.40));              // 0 = logo grande y centrado, 1 = en su lugar
+    var k = 1 - e;
+    brand.style.transform = 'translate(' + (heroGeo.tx * k).toFixed(1) + 'px,' + (heroGeo.ty * k).toFixed(1) + 'px) scale(' + (1 + (heroGeo.s0 - 1) * k).toFixed(4) + ')';
+    var menu = seg(P, 0.18, 0.40);               // el menú aparece junto con el viaje del logo
+    header.style.setProperty('--menu', menu.toFixed(3));
+    menuEls.forEach(function (m) { if (m) { if (menu < 0.6) m.setAttribute('inert', ''); else m.removeAttribute('inert'); } });
+    var tt = seg(P, 0.36, 0.75);
+    heroDesc.style.setProperty('--p', tt.toFixed(3));
+    h1.style.setProperty('--p', tt.toFixed(3));
+    heroLead.style.setProperty('--p', seg(P, 0.52, 0.78).toFixed(3));
+    var b = seg(P, 0.71, 0.80);
+    heroBtns.style.setProperty('--b', b.toFixed(3));
+    if (b < 0.5) heroBtns.setAttribute('inert', ''); else heroBtns.removeAttribute('inert');
+    heroCue.style.setProperty('--cue', (1 - seg(P, 0, 0.12)).toFixed(3));
+  }
+
   /* ---------- Menú: sección activa, tono claro/oscuro y botón ---------- */
-  var header = $('#site-header');
   var toggle = $('#nav-toggle');
   var navLinks = $$('.pill a');
   var navSections = navLinks.map(function (a) { return $(a.getAttribute('href')); });
@@ -475,9 +515,11 @@
       updateProblems();
       updateDiagram();
       updateScrub();
+      updateHero();
     });
   }
   function onResize() {
+    measureHero();
     watchPie();
     sizeProblems();
     sizeServices();
@@ -488,6 +530,7 @@
     updateProblems();
     updateDiagram();
     updateScrub();
+    updateHero();
     probP = probT;
     if (!reduce.matches) renderProblems();
   }
