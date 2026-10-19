@@ -239,10 +239,8 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .dg-card b { font-size: 16px; font-weight: 600; line-height: 1.2; color: var(--p900); }
 .dg-card small { font-size: 14px; color: var(--p800); }
 .dg-card.merge .dg-fa b { text-decoration: line-through; color: var(--p600); }
-.dg-auto { position: absolute; top: -11px; right: 10px; font-size: 11px; font-weight: 500; color: var(--p800); background: var(--p100); padding: 2px 8px; border-radius: 6px; opacity: 0; }
+.dg-auto { position: absolute; top: -11px; right: 10px; display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 500; color: var(--p800); background: var(--p100); padding: 2px 8px; border-radius: 6px; opacity: 0; }
 .dg-arrow { position: absolute; transform: translate(-50%, -50%); font-size: 20px; color: var(--p800); pointer-events: none; z-index: 1; }
-.dg-dot { position: absolute; top: 184px; left: 3%; width: 9px; height: 9px; border-radius: 50%; background: var(--p800); opacity: 0; z-index: 3; animation: dg-run 3.2s ease-in-out infinite; }
-@keyframes dg-run { 0%, 100% { left: 3%; } 50% { left: 90%; } }
 .dg-foot { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, 1fr); gap: 48px; align-items: center; padding-top: 40px; }
 .dg-left { font-size: 16px; line-height: 1.5; color: var(--p900); max-width: 22em; }
 .dg-left b { font-weight: 600; }
@@ -471,7 +469,6 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
   .js .btn-row { opacity: 1; transform: none; }
   .hero-cue { display: none; }
   .mouse i { animation: none; }
-  .dg-dot { animation: none; display: none; }
   .dg-bar.hint input[type=range]::-webkit-slider-thumb, .dg-bar.hint input[type=range]::-moz-range-thumb { animation: none; }
   .sl { opacity: 1; filter: none; transform: none; }
   .follow-label, .follow-icons, .follow-link, .follow-share { transition: none; animation: none !important; }

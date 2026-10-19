@@ -299,7 +299,7 @@
   /* ---------- Diagrama: lo controla la barra inferior (no el scroll) ---------- */
   var dgRange = $('#dg-range'), dgCap = $('#dg-caption'), dgCountEl = $('#dg-count');
   var dgCards = $$('.dg-card'), dgArrows = $$('.dg-arrow'), dgAuto = $$('.dg-auto');
-  var dgLinks = $$('.dg-link'), dgDot = $('#dg-dot'), dgStops = $$('.dg-stop');
+  var dgLinks = $$('.dg-link'), dgStops = $$('.dg-stop');
   var dgElbow = $('#dg-elbow'), dgBar = $('#dg-bar');
   var dgRaf = null, dgCur = 0, dgTarget = 0, dgStopIdx = -1, dgCountTxt = '';
   // Cada parada tiene un tramo quieto (para que el estado se vea un momento) y entre tramos las piezas se mueven.
@@ -373,7 +373,6 @@
     DG_MERGE.forEach(function (i) { dgCards[i].classList.toggle('merge', s >= 1.5); });
     var late = clamp((s - 2.6) * 2.5, 0, 1).toFixed(3);
     dgAuto.forEach(function (el) { el.style.opacity = late; });
-    dgDot.style.opacity = late;
     var cnt = s >= 1.9 ? 'Una consulta, de principio a fin · 4 pasos' : 'Una consulta, de principio a fin · 7 pasos';
     if (cnt !== dgCountTxt) { dgCountTxt = cnt; dgCountEl.textContent = cnt; }
     var near = Math.min(3, Math.max(0, Math.round(s)));
