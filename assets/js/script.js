@@ -300,37 +300,40 @@
   var dgRange = $('#dg-range'), dgCap = $('#dg-caption'), dgCountEl = $('#dg-count');
   var dgCards = $$('.dg-card'), dgArrows = $$('.dg-arrow'), dgAuto = $$('.dg-auto');
   var dgLinks = $$('.dg-link'), dgDot = $('#dg-dot'), dgStops = $$('.dg-stop');
+  var dgElbow = $('#dg-elbow'), dgBar = $('#dg-bar');
   var dgRaf = null, dgCur = 0, dgTarget = 0, dgStopIdx = -1, dgCountTxt = '';
-  // progreso (0 a 1) en que está cada parada; entre 02 y 03 hay más recorrido, para que se vea despacio
-  var DG_STOPS = [0, 0.25, 0.6, 0.9];
+  // Cada parada tiene un tramo quieto (para que el estado se vea un momento) y entre tramos las piezas se mueven.
+  // Entre 02 y 03 hay más recorrido, para que se vea despacio.
+  var DG_HOLDS = [[0, 0.03], [0.22, 0.32], [0.6, 0.68], [0.88, 1]];
+  var DG_STOPS = [0, 0.27, 0.64, 1];   // a dónde va la barra al tocar cada parada
   var DG_CAP = ['7 pasos, cada uno en un lugar distinto.', 'Ordenamos los pasos y se ve qué sobra.', 'Sacamos lo que sobra: quedan 4 pasos.', 'Lo que se repite sale solo.'];
   // Por tarjeta (en orden), por estado [01, 02, 03, 04]: [x %, y px, giro grados, opacidad]
   var DG_CARD = [
-    [[2, 30, -7, 1], [3, 40, 0, 1], [3, 150, 0, 1], [3, 150, 0, 1]],      // 1 Consulta
-    [[27, 2, 5, 1], [27, 40, 0, 1], [27, 150, 0, 0], [27, 150, 0, 0]],    // 2 Precios (se mete en Presupuesto)
-    [[50, 46, -4, 1], [51, 40, 0, 1], [27, 150, 0, 1], [27, 150, 0, 1]],  // 3 Presupuesto
-    [[70, 4, 8, 1], [75, 40, 0, 1], [27, 150, 0, 0], [27, 150, 0, 0]],    // 4 Enviar PDF (se mete en Presupuesto)
-    [[78, 150, -5, 1], [3, 230, 0, 1], [51, 150, 0, 0], [51, 150, 0, 0]], // 5 Recordar (se mete en Seguimiento)
-    [[12, 170, 4, 1], [27, 230, 0, 1], [51, 150, 0, 1], [51, 150, 0, 1]], // 6 Seguimiento
-    [[42, 262, -6, 1], [51, 230, 0, 1], [75, 150, 0, 1], [75, 150, 0, 1]] // 7 Cargar la venta / Registro
+    [[38, 150, -8, 1], [3, 40, 0, 1], [3, 150, 0, 1], [3, 150, 0, 1]],    // 1 Consulta
+    [[70, 30, 6, 1], [27, 40, 0, 1], [27, 150, 0, 0], [27, 150, 0, 0]],   // 2 Precios (se mete en Presupuesto)
+    [[6, 40, 9, 1], [51, 40, 0, 1], [27, 150, 0, 1], [27, 150, 0, 1]],    // 3 Presupuesto
+    [[52, 250, -5, 1], [75, 40, 0, 1], [27, 150, 0, 0], [27, 150, 0, 0]], // 4 Enviar PDF (se mete en Presupuesto)
+    [[20, 180, 7, 1], [3, 230, 0, 1], [51, 150, 0, 0], [51, 150, 0, 0]],  // 5 Recordar (se mete en Seguimiento)
+    [[76, 200, -10, 1], [27, 230, 0, 1], [51, 150, 0, 1], [51, 150, 0, 1]], // 6 Seguimiento
+    [[44, 8, 4, 1], [51, 230, 0, 1], [75, 150, 0, 1], [75, 150, 0, 1]]    // 7 Cargar la venta / Registro
   ];
-  // Flechas, por estado: [x %, y px, opacidad]; la última es el giro de la fila 1 a la 2
+  // Flechas, por estado: [x %, y px, opacidad]. Del 4 al 5 va una flecha en codo (dg-elbow, en el SVG)
   var DG_ARROW = [
     [[25, 78, 0], [26, 78, 1], [26, 188, 1], [26, 188, 1]],
     [[49, 78, 0], [50, 78, 1], [50, 188, 1], [50, 188, 1]],
     [[73, 78, 0], [74, 78, 1], [74, 188, 1], [74, 188, 1]],
     [[25, 268, 0], [26, 268, 1], [26, 268, 0], [26, 268, 0]],
-    [[49, 268, 0], [50, 268, 1], [50, 268, 0], [50, 268, 0]],
-    [[86, 176, 0], [86, 176, 1], [86, 176, 0], [86, 176, 0]]
+    [[49, 268, 0], [50, 268, 1], [50, 268, 0], [50, 268, 0]]
   ];
   var DG_LINKS = [[0, 2], [0, 5], [1, 3], [1, 4], [2, 6], [3, 4], [5, 6], [4, 6]]; // pares unidos por puntos al inicio
   var DG_FB = [0, 2, 5, 6];    // tarjetas que cambian de texto en 03 (Consulta, Presupuesto, Seguimiento, Registro)
   var DG_MERGE = [1, 3, 4];    // tarjetas que se tachan y se meten dentro de otra
 
-  function dgState(p) {        // progreso 0 a 1 -> estado continuo 0 a 3
-    if (p >= DG_STOPS[3]) return 3;
-    for (var i = 0; i < 3; i++) {
-      if (p <= DG_STOPS[i + 1]) return i + (p - DG_STOPS[i]) / (DG_STOPS[i + 1] - DG_STOPS[i]);
+  function dgState(p) {        // progreso 0 a 1 -> estado continuo 0 a 3, quieto en cada parada
+    for (var i = 0; i < 4; i++) if (p >= DG_HOLDS[i][0] && p <= DG_HOLDS[i][1]) return i;
+    for (var j = 0; j < 3; j++) {
+      var a = DG_HOLDS[j][1], b = DG_HOLDS[j + 1][0];
+      if (p > a && p < b) { var f = (p - a) / (b - a); return j + f * f * (3 - 2 * f); }
     }
     return 3;
   }
@@ -355,6 +358,7 @@
       ln.setAttribute('x2', b[0].toFixed(2)); ln.setAttribute('y2', b[1].toFixed(1));
       ln.style.opacity = (clamp(1 - s, 0, 1) * 0.9).toFixed(3);
     });
+    dgElbow.style.opacity = clamp(1 - Math.abs(s - 1) * 2, 0, 1).toFixed(3);
     dgArrows.forEach(function (el, j) {
       var v = dgMix(DG_ARROW[j], s);
       el.style.left = v[0].toFixed(2) + '%';
@@ -390,9 +394,10 @@
     if (reduce.matches) { dgCur = dgTarget; renderDiagram(); return; }
     if (!dgRaf) dgRaf = requestAnimationFrame(tickDiagram);
   }
-  dgRange.addEventListener('input', function () { dgTarget = dgRange.value / 100; wakeDiagram(); });
+  dgRange.addEventListener('input', function () { dgBar.classList.remove('hint'); dgTarget = dgRange.value / 100; wakeDiagram(); });
   dgStops.forEach(function (btn, i) {
     btn.addEventListener('click', function () {
+      dgBar.classList.remove('hint');
       dgTarget = DG_STOPS[i];
       dgRange.value = (DG_STOPS[i] * 100).toFixed(1);
       wakeDiagram();
