@@ -98,8 +98,8 @@
   </div>
 </section>
 
-<!-- Diagrama: un proceso que se ordena según la barra (o el scroll) -->
-<section class="diagram-1" id="diagram-sec" aria-label="Un proceso de todos los días">
+<!-- Diagrama: un proceso que se ordena según la barra inferior (no según el scroll) -->
+<section class="diagram-1" aria-label="Un proceso de todos los días">
   <div class="container dg-wrap">
     <div class="dg-stage">
       <div class="dg-top">
@@ -107,6 +107,10 @@
         <span id="dg-count">Una consulta, de principio a fin · 7 pasos</span>
       </div>
       <div class="dg-canvas">
+        <svg class="dg-links" viewBox="0 0 100 340" preserveAspectRatio="none" aria-hidden="true">
+          <line class="dg-link"></line><line class="dg-link"></line><line class="dg-link"></line><line class="dg-link"></line>
+          <line class="dg-link"></line><line class="dg-link"></line><line class="dg-link"></line><line class="dg-link"></line>
+        </svg>
         <div class="dg-card"><span class="dg-fa"><b>1. Consulta</b><small>por WhatsApp</small></span><span class="dg-fb"><b>1. Consulta</b><small>llega al sistema</small></span></div>
         <div class="dg-card"><span class="dg-fa"><b>2. Precios</b><small>en un Excel</small></span></div>
         <div class="dg-card"><span class="dg-fa"><b>3. Presupuesto</b><small>en un Word</small></span><span class="dg-fb"><b>2. Presupuesto</b><small>con precios</small></span></div>
@@ -117,16 +121,20 @@
         <span class="dg-arrow">→</span><span class="dg-arrow">→</span><span class="dg-arrow">→</span><span class="dg-arrow">→</span><span class="dg-arrow">→</span><span class="dg-arrow">↙</span>
         <span class="dg-dot" id="dg-dot" aria-hidden="true"></span>
       </div>
-      <div class="dg-bar">
-        <p class="dg-title">Mirá cómo se ordena un proceso</p>
-        <div class="dg-labels">
-          <button type="button" class="dg-stop" style="left:0%">01 Suelto</button>
-          <button type="button" class="dg-stop" style="left:25%">02 Ordenado</button>
-          <button type="button" class="dg-stop" style="left:60%">03 Digital</button>
-          <button type="button" class="dg-stop" style="left:90%">04 Automático</button>
+      <div class="dg-foot">
+        <p class="dg-left"><b>Todo negocio tiene procesos sueltos.</b> Así los ordenamos.</p>
+        <div class="dg-bar">
+          <p class="dg-title">Mirá cómo se ordena un proceso</p>
+          <div class="dg-labels">
+            <button type="button" class="dg-stop" style="left:0%">01 Suelto</button>
+            <button type="button" class="dg-stop" style="left:25%">02 Ordenado</button>
+            <button type="button" class="dg-stop" style="left:60%">03 Digital</button>
+            <button type="button" class="dg-stop" style="left:90%">04 Automático</button>
+          </div>
+          <input type="range" id="dg-range" min="0" max="100" step="0.5" value="0" aria-label="Estado del proceso">
+          <p class="dg-caption" id="dg-caption" aria-live="polite">7 pasos, cada uno en un lugar distinto.</p>
         </div>
-        <input type="range" id="dg-range" min="0" max="100" step="0.5" value="0" aria-label="Estado del proceso">
-        <p class="dg-caption" id="dg-caption" aria-live="polite">7 pasos, cada uno en un lugar distinto.</p>
+        <a class="btn btn-secondary dg-cta" href="#como-trabajamos">Ver cómo trabajamos</a>
       </div>
     </div>
   </div>

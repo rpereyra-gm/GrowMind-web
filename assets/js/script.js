@@ -296,24 +296,23 @@
     fill.style.width = (probP * 100).toFixed(1) + '%';
   }
 
-  /* ---------- Diagrama: barra de cuatro estados; las piezas se mueven entre ellos (scroll o barra) ---------- */
-  var dgSec = $('#diagram-sec');
+  /* ---------- Diagrama: lo controla la barra inferior (no el scroll) ---------- */
   var dgRange = $('#dg-range'), dgCap = $('#dg-caption'), dgCountEl = $('#dg-count');
   var dgCards = $$('.dg-card'), dgArrows = $$('.dg-arrow'), dgAuto = $$('.dg-auto');
-  var dgDot = $('#dg-dot'), dgStops = $$('.dg-stop');
+  var dgLinks = $$('.dg-link'), dgDot = $('#dg-dot'), dgStops = $$('.dg-stop');
   var dgRaf = null, dgCur = 0, dgTarget = 0, dgStopIdx = -1, dgCountTxt = '';
   // progreso (0 a 1) en que está cada parada; entre 02 y 03 hay más recorrido, para que se vea despacio
   var DG_STOPS = [0, 0.25, 0.6, 0.9];
   var DG_CAP = ['7 pasos, cada uno en un lugar distinto.', 'Ordenamos los pasos y se ve qué sobra.', 'Sacamos lo que sobra: quedan 4 pasos.', 'Lo que se repite sale solo.'];
   // Por tarjeta (en orden), por estado [01, 02, 03, 04]: [x %, y px, giro grados, opacidad]
   var DG_CARD = [
-    [[3, 40, -4, 1], [3, 40, 0, 1], [3, 150, 0, 1], [3, 150, 0, 1]],      // 1 Consulta
-    [[27, 40, 3, 1], [27, 40, 0, 1], [27, 150, 0, 0], [27, 150, 0, 0]],   // 2 Precios (se mete en Presupuesto)
-    [[51, 40, 4, 1], [51, 40, 0, 1], [27, 150, 0, 1], [27, 150, 0, 1]],   // 3 Presupuesto
-    [[75, 40, -3, 1], [75, 40, 0, 1], [27, 150, 0, 0], [27, 150, 0, 0]],  // 4 Enviar PDF (se mete en Presupuesto)
-    [[3, 230, 2, 1], [3, 230, 0, 1], [51, 150, 0, 0], [51, 150, 0, 0]],   // 5 Recordar (se mete en Seguimiento)
-    [[27, 230, 2, 1], [27, 230, 0, 1], [51, 150, 0, 1], [51, 150, 0, 1]], // 6 Seguimiento
-    [[51, 230, -2, 1], [51, 230, 0, 1], [75, 150, 0, 1], [75, 150, 0, 1]] // 7 Cargar la venta / Registro
+    [[2, 30, -7, 1], [3, 40, 0, 1], [3, 150, 0, 1], [3, 150, 0, 1]],      // 1 Consulta
+    [[27, 2, 5, 1], [27, 40, 0, 1], [27, 150, 0, 0], [27, 150, 0, 0]],    // 2 Precios (se mete en Presupuesto)
+    [[50, 46, -4, 1], [51, 40, 0, 1], [27, 150, 0, 1], [27, 150, 0, 1]],  // 3 Presupuesto
+    [[70, 4, 8, 1], [75, 40, 0, 1], [27, 150, 0, 0], [27, 150, 0, 0]],    // 4 Enviar PDF (se mete en Presupuesto)
+    [[78, 150, -5, 1], [3, 230, 0, 1], [51, 150, 0, 0], [51, 150, 0, 0]], // 5 Recordar (se mete en Seguimiento)
+    [[12, 170, 4, 1], [27, 230, 0, 1], [51, 150, 0, 1], [51, 150, 0, 1]], // 6 Seguimiento
+    [[42, 262, -6, 1], [51, 230, 0, 1], [75, 150, 0, 1], [75, 150, 0, 1]] // 7 Cargar la venta / Registro
   ];
   // Flechas, por estado: [x %, y px, opacidad]; la última es el giro de la fila 1 a la 2
   var DG_ARROW = [
@@ -324,6 +323,7 @@
     [[49, 268, 0], [50, 268, 1], [50, 268, 0], [50, 268, 0]],
     [[86, 176, 0], [86, 176, 1], [86, 176, 0], [86, 176, 0]]
   ];
+  var DG_LINKS = [[0, 2], [0, 5], [1, 3], [1, 4], [2, 6], [3, 4], [5, 6], [4, 6]]; // pares unidos por puntos al inicio
   var DG_FB = [0, 2, 5, 6];    // tarjetas que cambian de texto en 03 (Consulta, Presupuesto, Seguimiento, Registro)
   var DG_MERGE = [1, 3, 4];    // tarjetas que se tachan y se meten dentro de otra
 
@@ -340,13 +340,20 @@
     return a.map(function (v, j) { return v + (b[j] - v) * f; });
   }
   function renderDiagram() {
-    var s = dgState(dgCur);
+    var s = dgState(dgCur), centers = [];
     dgCards.forEach(function (c, i) {
       var v = dgMix(DG_CARD[i], s);
+      centers[i] = [v[0] + 11, v[1] + 38];  // centro de la tarjeta (ancho 22 %, alto 76 px)
       c.style.left = v[0].toFixed(2) + '%';
       c.style.top = v[1].toFixed(1) + 'px';
       c.style.transform = 'rotate(' + v[2].toFixed(2) + 'deg)';
       c.style.opacity = v[3].toFixed(3);
+    });
+    dgLinks.forEach(function (ln, k) {
+      var a = centers[DG_LINKS[k][0]], b = centers[DG_LINKS[k][1]];
+      ln.setAttribute('x1', a[0].toFixed(2)); ln.setAttribute('y1', a[1].toFixed(1));
+      ln.setAttribute('x2', b[0].toFixed(2)); ln.setAttribute('y2', b[1].toFixed(1));
+      ln.style.opacity = (clamp(1 - s, 0, 1) * 0.9).toFixed(3);
     });
     dgArrows.forEach(function (el, j) {
       var v = dgMix(DG_ARROW[j], s);
@@ -383,17 +390,6 @@
     if (reduce.matches) { dgCur = dgTarget; renderDiagram(); return; }
     if (!dgRaf) dgRaf = requestAnimationFrame(tickDiagram);
   }
-  // Desde el scroll: la sección queda fija y el progreso es lo recorrido dentro de ella
-  function updateDiagram() {
-    if (!dgSec) return;
-    var r = dgSec.getBoundingClientRect();
-    var total = dgSec.offsetHeight - window.innerHeight;
-    var p = total > 0 ? clamp(-r.top / total, 0, 1) : 0;
-    dgTarget = p;
-    dgRange.value = (p * 100).toFixed(1);
-    wakeDiagram();
-  }
-  // Desde la barra: arrastrar, teclado o tocar una parada
   dgRange.addEventListener('input', function () { dgTarget = dgRange.value / 100; wakeDiagram(); });
   dgStops.forEach(function (btn, i) {
     btn.addEventListener('click', function () {
@@ -656,7 +652,6 @@
       onScrollQueued = false;
       updateHeader();
       updateProblems();
-      updateDiagram();
       updateScrub();
       updateHero();
     });
@@ -671,7 +666,7 @@
     pos = target;
     renderServices();
     updateProblems();
-    updateDiagram();
+    renderDiagram();
     updateScrub();
     updateHero();
     probP = probT;
