@@ -228,8 +228,8 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .dg-wrap { width: 100%; height: 100%; }
 /* El diagrama se centra en el espacio libre y la barra queda al pie de la pantalla */
 .dg-stage { width: 100%; height: 100%; display: flex; flex-direction: column; }
-.dg-top { display: flex; justify-content: space-between; gap: 16px; font-size: 14px; color: var(--p800); }
-.dg-canvas { position: relative; height: 340px; flex: none; margin: auto 0; }
+.dg-top { display: flex; justify-content: space-between; gap: 16px; font-size: 14px; color: var(--p800); margin-top: auto; }
+.dg-canvas { position: relative; height: 340px; flex: none; margin: 28px 0 auto; } /* los títulos de arriba acompañan al diagrama */
 .dg-links { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 0; }
 .dg-elbow { fill: none; stroke: var(--p800); stroke-width: 1.4; stroke-linejoin: round; vector-effect: non-scaling-stroke; opacity: 0; }
 .dg-link { stroke: var(--p800); stroke-width: 1.2; stroke-dasharray: 1 6; stroke-linecap: round; vector-effect: non-scaling-stroke; }
