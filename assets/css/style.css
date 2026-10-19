@@ -244,25 +244,22 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .dg-foot { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, 1fr); gap: 48px; align-items: center; padding-top: 40px; }
 .dg-left { font-size: 16px; line-height: 1.5; color: var(--p900); max-width: 22em; }
 .dg-left b { font-weight: 600; }
-.dg-bar { display: flex; flex-direction: column; gap: 8px; }
+.dg-bar { display: flex; flex-direction: column; gap: 6px; }
 .dg-title { display: flex; justify-content: space-between; font-size: 14px; color: var(--p800); }
-.dg-labels { position: relative; height: 22px; }
-.dg-stop { position: absolute; top: 0; transform: translateX(-50%); background: none; border: 0; padding: 0; font: inherit; font-size: 14px; color: var(--p800); cursor: pointer; white-space: nowrap; }
+.dg-labels { position: relative; height: 20px; }
+.dg-stop { position: absolute; top: 0; transform: translateX(-50%); background: none; border: 0; padding: 0; font: inherit; font-size: 15px; color: var(--p800); cursor: pointer; white-space: nowrap; transition: color .2s; }
+.dg-stop i { font-style: normal; font-size: 11px; margin-right: 6px; }
 .dg-stop:first-child { transform: none; }
 .dg-stop-last { transform: none; }
-.dg-stop.on { color: var(--p900); font-weight: 600; }
+.dg-stop.on { color: var(--p900); }
 .dg-stop:focus-visible { outline: 2px solid var(--p800); outline-offset: 3px; border-radius: 4px; }
-.dg-bar input[type=range] { width: 100%; margin: 0; -webkit-appearance: none; appearance: none; background: transparent; height: 22px; cursor: pointer; }
-.dg-bar input[type=range]::-webkit-slider-runnable-track { height: 2px; background: var(--p100); border-radius: 2px; }
-.dg-bar input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; margin-top: -9px; border-radius: 50%; background: var(--p800); border: 0; box-shadow: 0 0 0 6px rgba(27, 83, 85, .14); }
-.dg-bar input[type=range]::-moz-range-track { height: 2px; background: var(--p100); border-radius: 2px; }
-.dg-bar input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--p800); border: 0; box-shadow: 0 0 0 6px rgba(27, 83, 85, .14); }
-/* Hasta que alguien la toca, la perilla late para invitar a moverla */
-.dg-bar.hint input[type=range]::-webkit-slider-thumb { animation: dg-pulse 1.8s ease-in-out infinite; }
-.dg-bar.hint input[type=range]::-moz-range-thumb { animation: dg-pulse 1.8s ease-in-out infinite; }
-@keyframes dg-pulse { 0%, 100% { box-shadow: 0 0 0 6px rgba(27, 83, 85, .14); } 50% { box-shadow: 0 0 0 12px rgba(27, 83, 85, .06); } }
+.dg-bar input[type=range] { width: 100%; margin: 0; -webkit-appearance: none; appearance: none; background: transparent; height: 20px; cursor: pointer; }
+.dg-bar input[type=range]::-webkit-slider-runnable-track { height: 1px; background: var(--p800); }
+.dg-bar input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; margin-top: -5.5px; border-radius: 50%; background: var(--p800); border: 0; }
+.dg-bar input[type=range]::-moz-range-track { height: 1px; background: var(--p800); }
+.dg-bar input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--p800); border: 0; }
 .dg-bar input[type=range]:focus-visible { outline: 2px solid var(--p800); outline-offset: 4px; border-radius: 4px; }
-.dg-caption { font-size: 15px; color: var(--p900); min-height: 1.4em; }
+.dg-caption { font-size: 13px; color: var(--p800); min-height: 1.4em; }
 .dg-cta { justify-self: end; }
 
 /* Servicios */
@@ -469,7 +466,6 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
   .js .btn-row { opacity: 1; transform: none; }
   .hero-cue { display: none; }
   .mouse i { animation: none; }
-  .dg-bar.hint input[type=range]::-webkit-slider-thumb, .dg-bar.hint input[type=range]::-moz-range-thumb { animation: none; }
   .sl { opacity: 1; filter: none; transform: none; }
   .follow-label, .follow-icons, .follow-link, .follow-share { transition: none; animation: none !important; }
   .js .problems { height: auto; }
