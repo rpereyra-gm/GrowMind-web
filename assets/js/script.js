@@ -705,15 +705,14 @@
   resize();
   window.addEventListener('resize', resize);
 
-  var N = 9, LIFE = 1100;                       // hilos y vida de cada punto (ms)
+  var N = 9, LIFE = 520;                       // hilos y vida de cada punto (ms)
   var pie = document.getElementById('pie');
   var strands = [];
   for (var i = 0; i < N; i++) {
     strands.push({
-      k: 0.014 + i * 0.011,                     // rigidez del resorte: cuanto menor, más se atrasa y más se curva
-      d: 0.93 - i * 0.012,                      // amortiguación: los lentos rebotan más, y de ahí el abanico
-      x: 0, y: 0, vx: 0, vy: 0, pts: [],
-      a: 0.75 - i * 0.05                        // opacidad máxima: los más lentos son más tenues
+      f: 0.34 - i * 0.027,                      // cuánto se acerca al puntero en cada cuadro: sin rebote, nunca se pasa de largo
+      x: 0, y: 0, pts: [],
+      a: 0.7 - i * 0.045                        // opacidad máxima: los más lentos son más tenues
     });
   }
   var mx = 0, my = 0, seen = false, raf = null;
@@ -738,17 +737,17 @@
 
     strands.forEach(function (s) {
       if (mx > -9000) {
-        s.vx = (s.vx + (mx - s.x) * s.k) * s.d;
-        s.vy = (s.vy + (my - s.y) * s.k) * s.d;
-        s.x += s.vx; s.y += s.vy;
+        var dx = (mx - s.x) * s.f, dy = (my - s.y) * s.f;
+        s.x += dx; s.y += dy;
+        var moving = Math.abs(dx) + Math.abs(dy) > 0.12;
       }
-      var moving = Math.abs(s.vx) + Math.abs(s.vy) > 0.15;
       if (moving) s.pts.push({ x: s.x, y: s.y, t: now });
+      else if (s.pts.length) s.pts.shift();   // al frenar, la cola se recoge hacia la punta
       while (s.pts.length && now - s.pts[0].t > LIFE) s.pts.shift();
       var p = s.pts;
       if (p.length > 2) alive = true;
       if (moving) alive = true;
-      ctx.lineWidth = 1;
+      ctx.lineWidth = 0.75;
       ctx.lineCap = 'round';
       for (var j = 1; j < p.length - 1; j++) {
         var age = (now - p[j].t) / LIFE;
