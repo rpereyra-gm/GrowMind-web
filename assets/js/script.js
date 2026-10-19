@@ -425,7 +425,7 @@
     });
   });
 
-  /* ---------- Servicios: listado en tres copias con foco central ---------- */
+  /* ---------- Servicios: listado único; al pasar el puntero se oscurece el servicio y aparece su ficha ---------- */
   var svc = $('#servicios');
   var stage = $('#svc-stage');
   var track = $('#svc-track');
@@ -450,67 +450,16 @@
   var hover = -1, hoverW = 0, hoverIdx = 0, hoverTarget = 0;
   var raf = null, lastPop = -2, shownIdx = -1;
 
-  function buildCopies() {
-    if (rows) return;
-    function copy(where) {
-      var ul = document.createElement('ul');
-      ul.className = 'svc-list-copy svc-copy';
-      ul.setAttribute('aria-hidden', 'true');
-      items.forEach(function (li, i) {
-        var c = document.createElement('li');
-        var sp = document.createElement('span');
-        sp.className = 'svc-copy-name';
-        sp.textContent = $('.svc-name', li).textContent;
-        sp.setAttribute('data-n', $('.svc-name', li).getAttribute('data-n'));
-        // las copias de arriba y de abajo también reaccionan al puntero
-        sp.addEventListener('mousemove', function (e) { setHover(i, e); });
-        sp.addEventListener('mouseleave', function (e) {
-          var to = e.relatedTarget;
-          if (!(to && to.classList && (to.classList.contains('svc-name') || to.classList.contains('svc-copy-name')))) setHover(-1);
-        });
-        c.appendChild(sp);
-        ul.appendChild(c);
-      });
-      if (where === 'before') track.insertBefore(ul, list); else track.appendChild(ul);
-      return ul;
-    }
-    var before = copy('before'), after = copy('after');
-    rows = $$('.svc-copy-name', before).concat($$('.svc-name', list), $$('.svc-copy-name', after));
-    cache = rows.map(function () { return { c: '', o: '' }; });
-  }
-
-  function sizeServices() {
-    if (reduce.matches) { svc.style.removeProperty('--svc-h'); return; }
-    buildCopies();
-    stageH = stage.offsetHeight || window.innerHeight;
-    var fs = parseFloat(getComputedStyle($('.svc-name', list)).fontSize) || 40;
-    rowH = Math.round(fs * 1.3);
-    svc.style.setProperty('--row-h', rowH + 'px');
-    svc.style.setProperty('--svc-h', (stageH + (N - 1) * STEP_PX) + 'px');
-    marker.style.top = (stageH / 2 - 5) + 'px';
-    total = svc.offsetHeight - stageH;
-    secTop = svc.getBoundingClientRect().top + window.pageYOffset;
-    cache.forEach(function (c) { c.c = ''; c.o = ''; });
-  }
-
-  function readServices() {
-    if (reduce.matches || !rows) return;
-    target = total > 0 ? clamp(window.pageYOffset - secTop, 0, total) : 0;
-    wakeServices();
-  }
-
+  // Suaviza el cambio de color de la línea de la izquierda (Ordenar, Vender o Medir) al pasar el puntero
   function wakeServices() {
-    if (raf || reduce.matches) return;
+    if (raf) return;
     raf = requestAnimationFrame(tickServices);
   }
-
-  // Un solo ciclo: la posición suavizada persigue al objetivo y todo se calcula desde ella.
   function tickServices() {
     raf = null;
-    pos += (target - pos) * EASE;
     hoverW += (hoverTarget - hoverW) * 0.2;
-    var settled = Math.abs(target - pos) < 0.05 && Math.abs(hoverTarget - hoverW) < 0.002;
-    if (settled) { pos = target; hoverW = hoverTarget; }
+    var settled = Math.abs(hoverTarget - hoverW) < 0.002;
+    if (settled) hoverW = hoverTarget;
     renderServices();
     if (!settled) raf = requestAnimationFrame(tickServices);
   }
@@ -520,26 +469,9 @@
   }
 
   function renderServices() {
-    if (!rows || reduce.matches) return;
-    var f = total > 0 ? pos / total * (N - 1) : 0;   // servicio en el centro, continuo
-    var center = N + f;
-    var cf = f + hoverW * (hoverIdx - f);            // servicio que lleva el foco de color
-    var cc = N + cf;
-    track.style.transform = 'translate3d(0,' + (stageH / 2 - center * rowH - rowH / 2).toFixed(2) + 'px,0)';
-    for (var g = 0; g < rows.length; g++) {
-      var d = Math.abs(g - center);
-      var o = d <= 4 ? '1' : (d >= 7.5 ? '0' : (1 - (d - 4) / 3.5).toFixed(3));
-      var c = cache[g];
-      if (c.o !== o) { rows[g].style.opacity = o; c.o = o; }
-    }
-    // La línea de la izquierda (Ordenar, Vender o Medir) se oscurece cuando el puntero está sobre uno de sus servicios.
     for (var k = 0; k < lineEls.length; k++) {
       var w = lineItems[k].indexOf(hoverIdx) >= 0 ? hoverW : 0;
       lineEls[k].style.color = 'rgb(' + mix(P800, INK, w) + ')';
-    }
-    if (noHover.matches) {
-      var fi = Math.round(cf);
-      if (fi !== lastPop) { lastPop = fi; showPop(fi, null); }
     }
   }
 
@@ -610,9 +542,9 @@
   }
 
   function setHover(i, e) {
-    if (reduce.matches || !rows) return;
+    if (reduce.matches) return;
     hover = i;
-    if (i >= 0) { hoverIdx = i; hoverTarget = 1; showPop(i, e); } else { hoverTarget = 0; if (!noHover.matches) hidePop(); }
+    if (i >= 0) { hoverIdx = i; hoverTarget = 1; showPop(i, e); } else { hoverTarget = 0; hidePop(); }
     wakeServices();
   }
 
@@ -688,11 +620,7 @@
     measureHero();
     watchPie();
     sizeProblems();
-    sizeServices();
     onScroll();
-    readServices();
-    pos = target;
-    renderServices();
     updateProblems();
     renderDiagram();
     updateScrub();
@@ -702,7 +630,7 @@
   }
 
   bindServices();
-  window.addEventListener('scroll', function () { onScroll(); readServices(); }, { passive: true });
+  window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onResize);
   var onReduce = function () { location.reload(); };
   if (reduce.addEventListener) reduce.addEventListener('change', onReduce);

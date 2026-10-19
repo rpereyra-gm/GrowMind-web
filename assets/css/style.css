@@ -265,15 +265,15 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 
 /* Servicios */
 .services { position: relative; border-top: 1px solid var(--p100); }
-.js .services { height: var(--svc-h, 3000px); }
+.services { height: auto; }
 .svc-stage {
   position: relative; display: grid; grid-template-columns: minmax(0, .7fr) minmax(0, 2.3fr);
   column-gap: 24px; padding: 0 var(--margin); max-width: calc(var(--container) + var(--margin) * 2); margin: 0 auto;
   min-height: 560px;
 }
-.js .svc-stage { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 0; overflow: hidden; }
+.svc-stage { align-items: center; min-height: 100vh; min-height: 100svh; padding-top: 110px; padding-bottom: 80px; box-sizing: border-box; }
 .svc-left { padding: 96px 0; display: flex; flex-direction: column; gap: 20px; max-width: 360px; }
-.js .svc-left { padding: 0; margin-top: calc(50svh - .75em); align-self: start; }
+.js .svc-left { padding: 0; margin-top: 0; align-self: center; }
 .svc-left h2 { font-family: var(--sans); font-size: 18px; font-weight: 500; line-height: 1.4; letter-spacing: 0; color: var(--p900); }
 .svc-lead { font-size: 16px; line-height: 1.5; color: var(--p900); }
 .lines { display: flex; flex-direction: column; gap: 14px; margin-top: 12px; }
@@ -292,10 +292,10 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .svc-detail { display: flex; flex-direction: column; gap: 10px; padding: 8px 0 32px; max-width: 40em; font-size: 16px; line-height: 1.5; }
 
 /* Con JS: lista continua de tres copias */
-.js .svc-right { height: 100%; overflow: hidden; }
+.js .svc-right { height: auto; overflow: visible; }
 .js .marker { display: none; }
 .js .track { will-change: transform; }
-.js .svc-list li, .js .svc-list-copy li { height: var(--row-h, 56px); }
+.js .svc-list li { height: auto; padding: 2px 0; }
 /* Servicios: nombres grandes, numerados y escalonados; todos iguales, y el que tiene el puntero se oscurece */
 .svc-name, .svc-copy-name { margin-left: var(--ind, 0); position: relative; }
 .svc-name:hover, .svc-name:focus-visible, .svc-copy-name:hover { color: var(--p900); }
@@ -310,7 +310,7 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .svc-list li:nth-child(7n + 6), .svc-list-copy li:nth-child(7n + 6) { --ind: 1.5em; }
 .svc-list li:nth-child(7n + 7), .svc-list-copy li:nth-child(7n + 7) { --ind: .55em; }
 .js .svc-detail { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.js .svc-name, .svc-copy-name { line-height: var(--row-h, 56px); }
+.js .svc-name { line-height: 1.25; }
 .svc-copy-name { width: fit-content; max-width: 100%; position: relative; color: var(--p200); transition: color .2s; font-family: var(--display); font-size: clamp(34px, 4.1vw, 58px); font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; display: block; height: var(--row-h, 56px); }
 
 .pop {
