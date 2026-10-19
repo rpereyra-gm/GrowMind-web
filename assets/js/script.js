@@ -685,3 +685,80 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(onResize);
   onResize();
 })();
+
+/* ---------- Estela del puntero: varios hilos finos que siguen al mouse con distinto retraso ---------- */
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+  var canvas = document.createElement('canvas');
+  canvas.setAttribute('aria-hidden', 'true');
+  canvas.style.cssText = 'position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:45';
+  document.body.appendChild(canvas);
+  var ctx = canvas.getContext('2d');
+  var dpr = Math.min(window.devicePixelRatio || 1, 2), W = 0, H = 0;
+  function resize() {
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  var N = 9, LIFE = 1100;                       // hilos y vida de cada punto (ms)
+  var pie = document.getElementById('pie');
+  var strands = [];
+  for (var i = 0; i < N; i++) {
+    strands.push({
+      k: 0.014 + i * 0.011,                     // rigidez del resorte: cuanto menor, más se atrasa y más se curva
+      d: 0.93 - i * 0.012,                      // amortiguación: los lentos rebotan más, y de ahí el abanico
+      x: 0, y: 0, vx: 0, vy: 0, pts: [],
+      a: 0.75 - i * 0.05                        // opacidad máxima: los más lentos son más tenues
+    });
+  }
+  var mx = 0, my = 0, seen = false, raf = null;
+
+  window.addEventListener('pointermove', function (e) {
+    if (e.pointerType && e.pointerType !== 'mouse') return;
+    mx = e.clientX; my = e.clientY;
+    if (!seen) { seen = true; strands.forEach(function (s) { s.x = mx; s.y = my; }); }
+    if (!raf) raf = requestAnimationFrame(frame);
+  }, { passive: true });
+  document.addEventListener('mouseleave', function () { mx = -9999; });
+
+  function mid(a, b) { return [(a.x + b.x) / 2, (a.y + b.y) / 2]; }
+
+  function frame(now) {
+    raf = null;
+    ctx.clearRect(0, 0, W, H);
+    var onDark = false;
+    if (pie) { var r = pie.getBoundingClientRect(); onDark = my >= r.top && my <= r.bottom; }
+    var rgb = onDark ? '242,247,247' : '27,83,85';
+    var alive = false;
+
+    strands.forEach(function (s) {
+      if (mx > -9000) {
+        s.vx = (s.vx + (mx - s.x) * s.k) * s.d;
+        s.vy = (s.vy + (my - s.y) * s.k) * s.d;
+        s.x += s.vx; s.y += s.vy;
+      }
+      var moving = Math.abs(s.vx) + Math.abs(s.vy) > 0.15;
+      if (moving) s.pts.push({ x: s.x, y: s.y, t: now });
+      while (s.pts.length && now - s.pts[0].t > LIFE) s.pts.shift();
+      var p = s.pts;
+      if (p.length > 2) alive = true;
+      if (moving) alive = true;
+      ctx.lineWidth = 1;
+      ctx.lineCap = 'round';
+      for (var j = 1; j < p.length - 1; j++) {
+        var age = (now - p[j].t) / LIFE;
+        var al = Math.pow(1 - age, 2) * s.a;
+        if (al < 0.01) continue;
+        var m0 = mid(p[j - 1], p[j]), m1 = mid(p[j], p[j + 1]);
+        ctx.strokeStyle = 'rgba(' + rgb + ',' + al.toFixed(3) + ')';
+        ctx.beginPath(); ctx.moveTo(m0[0], m0[1]); ctx.quadraticCurveTo(p[j].x, p[j].y, m1[0], m1[1]); ctx.stroke();
+      }
+    });
+    if (alive) raf = requestAnimationFrame(frame);
+  }
+})();
