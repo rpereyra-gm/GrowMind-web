@@ -113,6 +113,9 @@
       heroEl.style.height = '100svh';
       window.scrollBy(0, heroEl.offsetHeight - oldH);
       heroCollapsed = true;
+      // El layout se movió: las posiciones guardadas de las secciones fijas quedaron viejas.
+      sizeProblems();
+      sizeServices();
     }
     var e = inOut(seg(P, 0, 0.40));              // 0 = logo grande y centrado, 1 = en su lugar
     var k = 1 - e;
