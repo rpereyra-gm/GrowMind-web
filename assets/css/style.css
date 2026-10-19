@@ -155,8 +155,7 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 /* Portada: una pantalla fija; el logo del menú empieza grande y centrado y viaja a su lugar */
 .hero { padding: 0; }
 .hero-stage { min-height: 100vh; min-height: 100svh; display: flex; align-items: center; position: relative; }
-.js .hero { height: 380vh; }
-.js .hero-stage { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 0; }
+.hero-stage { height: 100vh; height: 100svh; }
 .hero-text { display: flex; flex-direction: column; gap: clamp(16px, 3vh, 32px); padding-top: 72px; }
 .descriptor { font-size: 16px; font-weight: 500; color: var(--p800); }
 .hero h1 { font-size: clamp(48px, 8.6vw, 136px); line-height: .98; letter-spacing: -0.02em; }
@@ -446,8 +445,7 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 /* Sin animación: todo queda a la vista, una cosa debajo de otra */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .js .hero { height: auto; }
-  .js .hero-stage { position: relative; height: auto; min-height: 100svh; }
+  .hero-stage { height: auto; min-height: 100svh; }
   .js .btn-row { opacity: 1; transform: none; }
   .hero-cue { display: none; }
   .mouse i { animation: none; }

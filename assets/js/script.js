@@ -55,7 +55,7 @@
   var h1 = $('#hero-h1'), heroLead = $('#hero-lead'), heroDesc = $('#hero-desc');
   var heroBtns = $('#hero-btns'), heroCue = $('#hero-cue');
   var brand = $('.brand', document), menuEls = [$('#main-nav'), $('.btn-nav'), $('#nav-toggle')];
-  var heroGeo = null, heroMax = 0, heroCollapsed = false;
+  var heroGeo = null;
   if (!reduce.matches) {
     [heroDesc, h1, heroLead].forEach(function (el) { splitLetters(el, 0, 0, true); el.classList.add('scrub'); });
   }
@@ -99,38 +99,74 @@
     };
   }
 
+  // La presentación no mueve la página: mientras dura, la rueda, el touch y el teclado la hacen avanzar (o retroceder)
+  // y la barra de scroll queda arriba. Al terminar se libera el scroll normal y ya no vuelve a empezar.
+  var introOn = !reduce.matches && window.pageYOffset < 5;
+  var introT = 0, introS = 0, introRaf = null, touchY = null;
+  var INTRO_LEN = 2.4; // pantallas de rueda que dura la presentación
+
+  function finishIntro() { introOn = false; introT = introS = 1; renderHero(1); }
+
+  function pushIntro(d) {
+    introT = clamp(introT + d, 0, 1);
+    if (!introRaf) introRaf = requestAnimationFrame(tickIntro);
+  }
+
+  function tickIntro() {
+    introRaf = null;
+    introS += (introT - introS) * 0.12;
+    if (Math.abs(introT - introS) < 0.0008) introS = introT;
+    renderHero(introS);
+    if (introS >= 1) { introOn = false; return; }
+    if (introS !== introT) introRaf = requestAnimationFrame(tickIntro);
+  }
+
+  function wheelPx(e) { return e.deltaMode === 1 ? e.deltaY * 16 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY; }
+
+  window.addEventListener('wheel', function (e) {
+    if (!introOn) return;
+    e.preventDefault();
+    pushIntro(wheelPx(e) / (window.innerHeight * INTRO_LEN));
+  }, { passive: false });
+  window.addEventListener('touchstart', function (e) { if (introOn) touchY = e.touches[0].clientY; }, { passive: true });
+  window.addEventListener('touchmove', function (e) {
+    if (!introOn || touchY === null) return;
+    e.preventDefault();
+    var y = e.touches[0].clientY;
+    pushIntro((touchY - y) * 1.6 / (window.innerHeight * INTRO_LEN));
+    touchY = y;
+  }, { passive: false });
+  window.addEventListener('keydown', function (e) {
+    if (!introOn || /input|textarea|select/i.test(e.target.tagName)) return;
+    var k = e.key, step = 0.18;
+    if (k === 'ArrowDown' || k === 'PageDown' || (k === ' ' && !e.shiftKey)) { e.preventDefault(); pushIntro(step); }
+    else if (k === 'ArrowUp' || k === 'PageUp' || (k === ' ' && e.shiftKey)) { e.preventDefault(); pushIntro(-step); }
+    else if (k === 'End') { e.preventDefault(); pushIntro(1); }
+  });
+  // Si la página se mueve por otro camino (arrastrar la barra, un enlace con #, restaurar la posición), se completa.
+  window.addEventListener('scroll', function () { if (introOn && window.pageYOffset > 2) finishIntro(); }, { passive: true });
+
   function updateHero() {
     if (reduce.matches || !heroGeo) return;
-    var r = heroEl.getBoundingClientRect();
-    var total = heroEl.offsetHeight - window.innerHeight;
-    var Praw = total > 0 ? clamp(-r.top / total, 0, 1) : 1;
-    // La presentación se ve una sola vez: al volver hacia arriba, el logo y el texto quedan donde llegaron.
-    heroMax = Math.max(heroMax, Praw);
-    var P = heroMax;
-    // Ya presentada y fuera de pantalla: la portada pasa a medir una pantalla para no dejar un tramo muerto de scroll.
-    if (!heroCollapsed && heroMax >= 0.8 && r.bottom < 0) {
-      var oldH = heroEl.offsetHeight;
-      heroEl.style.height = '100svh';
-      window.scrollBy({ top: heroEl.offsetHeight - oldH, behavior: 'instant' }); // sin animar: con scroll suave recorría el camino y Problemas pasaba del 1 al 5
-      heroCollapsed = true;
-      // El layout se movió: las posiciones guardadas de las secciones fijas quedaron viejas.
-      sizeProblems();
-      sizeServices();
-    }
-    var e = inOut(seg(P, 0, 0.40));              // 0 = logo grande y centrado, 1 = en su lugar
+    renderHero(introOn ? introS : 1);
+  }
+
+  function renderHero(P) {
+    if (reduce.matches || !heroGeo) return;
+    var e = inOut(seg(P, 0, 0.45));              // 0 = logo grande y centrado, 1 = en su lugar
     var k = 1 - e;
     brand.style.transform = 'translate(' + (heroGeo.tx * k).toFixed(1) + 'px,' + (heroGeo.ty * k).toFixed(1) + 'px) scale(' + (1 + (heroGeo.s0 - 1) * k).toFixed(4) + ')';
-    var menu = seg(P, 0.18, 0.40);               // el menú aparece junto con el viaje del logo
+    var menu = seg(P, 0.2, 0.45);                // el menú aparece junto con el viaje del logo
     header.style.setProperty('--menu', menu.toFixed(3));
     menuEls.forEach(function (m) { if (m) { if (menu < 0.6) m.setAttribute('inert', ''); else m.removeAttribute('inert'); } });
-    var tt = seg(P, 0.36, 0.75);
+    var tt = seg(P, 0.4, 0.85);                  // el título arranca con el logo al 90 %
     heroDesc.style.setProperty('--p', tt.toFixed(3));
     h1.style.setProperty('--p', tt.toFixed(3));
-    heroLead.style.setProperty('--p', seg(P, 0.52, 0.78).toFixed(3));
-    var b = seg(P, 0.71, 0.80);
+    heroLead.style.setProperty('--p', seg(P, 0.58, 0.9).toFixed(3));
+    var b = seg(P, 0.8, 0.94);                   // los botones, con el título al 90 %
     heroBtns.style.setProperty('--b', b.toFixed(3));
     if (b < 0.5) heroBtns.setAttribute('inert', ''); else heroBtns.removeAttribute('inert');
-    heroCue.style.setProperty('--cue', (1 - seg(P, 0, 0.12)).toFixed(3));
+    heroCue.style.setProperty('--cue', (1 - seg(P, 0, 0.1)).toFixed(3));
   }
 
   /* ---------- Menú: sección activa, tono claro/oscuro y botón ---------- */
