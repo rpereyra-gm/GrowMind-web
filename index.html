@@ -98,30 +98,35 @@
   </div>
 </section>
 
-<!-- Diagrama: de lo complejo a lo simple -->
-<section class="diagram-1" id="diagram-sec" aria-label="De lo complejo a lo simple">
-  <div class="container">
-    <div class="diagram" id="diagram">
-      <div class="d-before">
-        <p class="d-label">Hoy: cada cosa por su lado</p>
-        <div class="scatter">
-          <span style="--r:-4deg;--y:0px">Planillas</span>
-          <span style="--r:3deg;--y:10px">Chats</span>
-          <span style="--r:-2deg;--y:-6px">Tienda</span>
-          <span style="--r:5deg;--y:0px">Publicidad</span>
-          <span style="--r:-3deg;--y:8px">Emails</span>
+<!-- Diagrama: un proceso que se ordena según la barra (o el scroll) -->
+<section class="diagram-1" id="diagram-sec" aria-label="Un proceso de todos los días">
+  <div class="container dg-wrap">
+    <div class="dg-stage">
+      <div class="dg-top">
+        <span>Un proceso de todos los días</span>
+        <span id="dg-count">Una consulta, de principio a fin · 7 pasos</span>
+      </div>
+      <div class="dg-canvas">
+        <div class="dg-card"><span class="dg-fa"><b>1. Consulta</b><small>por WhatsApp</small></span><span class="dg-fb"><b>1. Consulta</b><small>llega al sistema</small></span></div>
+        <div class="dg-card"><span class="dg-fa"><b>2. Precios</b><small>en un Excel</small></span></div>
+        <div class="dg-card"><span class="dg-fa"><b>3. Presupuesto</b><small>en un Word</small></span><span class="dg-fb"><b>2. Presupuesto</b><small>con precios</small></span></div>
+        <div class="dg-card"><span class="dg-fa"><b>4. Enviar PDF</b><small>por mail</small></span></div>
+        <div class="dg-card"><span class="dg-fa"><b>5. Recordar</b><small>en un post-it</small></span></div>
+        <div class="dg-card"><span class="dg-fa"><b>6. Seguimiento</b><small>por WhatsApp</small></span><span class="dg-fb"><b>3. Seguimiento</b><small>con recordatorio</small></span><span class="dg-auto">Automático</span></div>
+        <div class="dg-card"><span class="dg-fa"><b>7. Cargar la venta</b><small>en una planilla</small></span><span class="dg-fb"><b>4. Registro</b><small>en el sistema</small></span><span class="dg-auto">Automático</span></div>
+        <span class="dg-arrow">→</span><span class="dg-arrow">→</span><span class="dg-arrow">→</span><span class="dg-arrow">→</span><span class="dg-arrow">→</span><span class="dg-arrow">↙</span>
+        <span class="dg-dot" id="dg-dot" aria-hidden="true"></span>
+      </div>
+      <div class="dg-bar">
+        <p class="dg-title">Mirá cómo se ordena un proceso</p>
+        <div class="dg-labels">
+          <button type="button" class="dg-stop" style="left:0%">01 Suelto</button>
+          <button type="button" class="dg-stop" style="left:25%">02 Ordenado</button>
+          <button type="button" class="dg-stop" style="left:60%">03 Digital</button>
+          <button type="button" class="dg-stop" style="left:90%">04 Automático</button>
         </div>
-      </div>
-      <div class="d-arrow">
-        <span>ordenamos</span>
-        <svg class="icon-fill" width="64" height="24" aria-hidden="true"><use href="#i-arrow-right"/></svg>
-      </div>
-      <div class="d-after">
-        <p class="d-label">Con GrowMind: un solo flujo</p>
-        <span class="node" style="--i:0">Tienda</span><i aria-hidden="true" style="--i:.8"></i>
-        <span class="node" style="--i:1.4">Clientes</span><i aria-hidden="true" style="--i:2.2"></i>
-        <span class="node" style="--i:2.8">Mensajes</span><i aria-hidden="true" style="--i:3.6"></i>
-        <span class="node node-strong" style="--i:4.2">Tablero</span>
+        <input type="range" id="dg-range" min="0" max="100" step="0.5" value="0" aria-label="Estado del proceso">
+        <p class="dg-caption" id="dg-caption" aria-live="polite">7 pasos, cada uno en un lugar distinto.</p>
       </div>
     </div>
   </div>

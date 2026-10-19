@@ -296,18 +296,112 @@
     fill.style.width = (probP * 100).toFixed(1) + '%';
   }
 
-  /* ---------- Diagrama: de lo complejo a lo simple, ligado al scroll ---------- */
-  var diagram = $('#diagram');
-  var diagramSec = $('#diagram-sec');
-  var diagP = -1;
-  function updateDiagram() {
-    if (reduce.matches) { diagram.style.removeProperty('--p'); return; }
-    var r = diagramSec.getBoundingClientRect();
-    var total = diagramSec.offsetHeight - window.innerHeight;
-    // 0 cuando la sección se fija; llega a 1 al 80 % del recorrido y se queda un tramo con el diagrama completo
-    var p = total > 0 ? clamp(-r.top / (total * 0.8), 0, 1) : 1;
-    if (Math.abs(p - diagP) > 0.002) { diagP = p; diagram.style.setProperty('--p', p.toFixed(3)); }
+  /* ---------- Diagrama: barra de cuatro estados; las piezas se mueven entre ellos (scroll o barra) ---------- */
+  var dgSec = $('#diagram-sec');
+  var dgRange = $('#dg-range'), dgCap = $('#dg-caption'), dgCountEl = $('#dg-count');
+  var dgCards = $$('.dg-card'), dgArrows = $$('.dg-arrow'), dgAuto = $$('.dg-auto');
+  var dgDot = $('#dg-dot'), dgStops = $$('.dg-stop');
+  var dgRaf = null, dgCur = 0, dgTarget = 0, dgStopIdx = -1, dgCountTxt = '';
+  // progreso (0 a 1) en que está cada parada; entre 02 y 03 hay más recorrido, para que se vea despacio
+  var DG_STOPS = [0, 0.25, 0.6, 0.9];
+  var DG_CAP = ['7 pasos, cada uno en un lugar distinto.', 'Ordenamos los pasos y se ve qué sobra.', 'Sacamos lo que sobra: quedan 4 pasos.', 'Lo que se repite sale solo.'];
+  // Por tarjeta (en orden), por estado [01, 02, 03, 04]: [x %, y px, giro grados, opacidad]
+  var DG_CARD = [
+    [[3, 40, -4, 1], [3, 40, 0, 1], [3, 150, 0, 1], [3, 150, 0, 1]],      // 1 Consulta
+    [[27, 40, 3, 1], [27, 40, 0, 1], [27, 150, 0, 0], [27, 150, 0, 0]],   // 2 Precios (se mete en Presupuesto)
+    [[51, 40, 4, 1], [51, 40, 0, 1], [27, 150, 0, 1], [27, 150, 0, 1]],   // 3 Presupuesto
+    [[75, 40, -3, 1], [75, 40, 0, 1], [27, 150, 0, 0], [27, 150, 0, 0]],  // 4 Enviar PDF (se mete en Presupuesto)
+    [[3, 230, 2, 1], [3, 230, 0, 1], [51, 150, 0, 0], [51, 150, 0, 0]],   // 5 Recordar (se mete en Seguimiento)
+    [[27, 230, 2, 1], [27, 230, 0, 1], [51, 150, 0, 1], [51, 150, 0, 1]], // 6 Seguimiento
+    [[51, 230, -2, 1], [51, 230, 0, 1], [75, 150, 0, 1], [75, 150, 0, 1]] // 7 Cargar la venta / Registro
+  ];
+  // Flechas, por estado: [x %, y px, opacidad]; la última es el giro de la fila 1 a la 2
+  var DG_ARROW = [
+    [[25, 78, 0], [26, 78, 1], [26, 188, 1], [26, 188, 1]],
+    [[49, 78, 0], [50, 78, 1], [50, 188, 1], [50, 188, 1]],
+    [[73, 78, 0], [74, 78, 1], [74, 188, 1], [74, 188, 1]],
+    [[25, 268, 0], [26, 268, 1], [26, 268, 0], [26, 268, 0]],
+    [[49, 268, 0], [50, 268, 1], [50, 268, 0], [50, 268, 0]],
+    [[86, 176, 0], [86, 176, 1], [86, 176, 0], [86, 176, 0]]
+  ];
+  var DG_FB = [0, 2, 5, 6];    // tarjetas que cambian de texto en 03 (Consulta, Presupuesto, Seguimiento, Registro)
+  var DG_MERGE = [1, 3, 4];    // tarjetas que se tachan y se meten dentro de otra
+
+  function dgState(p) {        // progreso 0 a 1 -> estado continuo 0 a 3
+    if (p >= DG_STOPS[3]) return 3;
+    for (var i = 0; i < 3; i++) {
+      if (p <= DG_STOPS[i + 1]) return i + (p - DG_STOPS[i]) / (DG_STOPS[i + 1] - DG_STOPS[i]);
+    }
+    return 3;
   }
+  function dgMix(states, s) {  // interpola entre los dos estados vecinos
+    var k = Math.min(Math.floor(s), 2), f = s - k;
+    var a = states[k], b = states[k + 1];
+    return a.map(function (v, j) { return v + (b[j] - v) * f; });
+  }
+  function renderDiagram() {
+    var s = dgState(dgCur);
+    dgCards.forEach(function (c, i) {
+      var v = dgMix(DG_CARD[i], s);
+      c.style.left = v[0].toFixed(2) + '%';
+      c.style.top = v[1].toFixed(1) + 'px';
+      c.style.transform = 'rotate(' + v[2].toFixed(2) + 'deg)';
+      c.style.opacity = v[3].toFixed(3);
+    });
+    dgArrows.forEach(function (el, j) {
+      var v = dgMix(DG_ARROW[j], s);
+      el.style.left = v[0].toFixed(2) + '%';
+      el.style.top = v[1].toFixed(1) + 'px';
+      el.style.opacity = v[2].toFixed(3);
+    });
+    DG_FB.forEach(function (i) {
+      var fb = clamp((s - 1.5) * 2, 0, 1), card = dgCards[i];
+      card.querySelector('.dg-fb').style.opacity = fb.toFixed(3);
+      card.querySelector('.dg-fa').style.opacity = (1 - fb).toFixed(3);
+    });
+    DG_MERGE.forEach(function (i) { dgCards[i].classList.toggle('merge', s >= 1.5); });
+    var late = clamp((s - 2.6) * 2.5, 0, 1).toFixed(3);
+    dgAuto.forEach(function (el) { el.style.opacity = late; });
+    dgDot.style.opacity = late;
+    var cnt = s >= 1.9 ? 'Una consulta, de principio a fin · 4 pasos' : 'Una consulta, de principio a fin · 7 pasos';
+    if (cnt !== dgCountTxt) { dgCountTxt = cnt; dgCountEl.textContent = cnt; }
+    var near = Math.min(3, Math.max(0, Math.round(s)));
+    if (near !== dgStopIdx) {
+      dgStopIdx = near;
+      dgStops.forEach(function (btn, i) { btn.classList.toggle('on', i === near); });
+      dgCap.textContent = DG_CAP[near];
+    }
+  }
+  function tickDiagram() {
+    dgRaf = null;
+    dgCur += (dgTarget - dgCur) * 0.14;
+    if (Math.abs(dgTarget - dgCur) < 0.0005) dgCur = dgTarget;
+    renderDiagram();
+    if (dgCur !== dgTarget) dgRaf = requestAnimationFrame(tickDiagram);
+  }
+  function wakeDiagram() {
+    if (reduce.matches) { dgCur = dgTarget; renderDiagram(); return; }
+    if (!dgRaf) dgRaf = requestAnimationFrame(tickDiagram);
+  }
+  // Desde el scroll: la sección queda fija y el progreso es lo recorrido dentro de ella
+  function updateDiagram() {
+    if (!dgSec) return;
+    var r = dgSec.getBoundingClientRect();
+    var total = dgSec.offsetHeight - window.innerHeight;
+    var p = total > 0 ? clamp(-r.top / total, 0, 1) : 0;
+    dgTarget = p;
+    dgRange.value = (p * 100).toFixed(1);
+    wakeDiagram();
+  }
+  // Desde la barra: arrastrar, teclado o tocar una parada
+  dgRange.addEventListener('input', function () { dgTarget = dgRange.value / 100; wakeDiagram(); });
+  dgStops.forEach(function (btn, i) {
+    btn.addEventListener('click', function () {
+      dgTarget = DG_STOPS[i];
+      dgRange.value = (DG_STOPS[i] * 100).toFixed(1);
+      wakeDiagram();
+    });
+  });
 
   /* ---------- Servicios: listado en tres copias con foco central ---------- */
   var svc = $('#servicios');

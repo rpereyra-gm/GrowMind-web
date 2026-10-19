@@ -224,30 +224,37 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 /* Diagrama 1 */
 .diagram-1 { padding: 32px 0 var(--section); }
 /* Con JS la sección queda fija mientras el diagrama se arma, como Problemas y Servicios */
-.js .diagram-1 { height: 200vh; padding: 0; }
+.js .diagram-1 { height: 230vh; padding: 0; }
 .js .diagram-1 .container { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; align-items: center; }
-.js .diagram-1 .diagram { width: 100%; }
-.diagram {
-  background: #fff; border: 1px solid var(--p100); border-radius: var(--r-xl); padding: 48px 40px;
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 40px;
-}
-.d-before { flex: 1 1 320px; display: flex; flex-direction: column; gap: 20px; }
-.d-label { font-size: 14px; font-weight: 500; color: var(--p800); }
-.scatter { display: flex; flex-wrap: wrap; gap: 16px 20px; padding: 8px 0; }
-/* Animación ligada al scroll: --p va de 0 a 1 mientras el diagrama sube por la pantalla.
-   Primero las piezas sueltas se enderezan (--q) y después el flujo se arma paso a paso. */
-.diagram { --p: 1; --q: clamp(0, calc(var(--p) * 1.6), 1); }
-.scatter span {
-  padding: 12px 20px; border: 1px solid color-mix(in srgb, var(--p800) calc(var(--q) * 100%), var(--p200));
-  border-radius: var(--r-md); font-size: 16px;
-  transform: rotate(calc(var(--r) * (1 - var(--q)))) translateY(calc(var(--y) * (1 - var(--q))));
-}
-.d-arrow { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--p800); font-size: 14px; opacity: var(--q); }
-.d-after { flex: 0 1 280px; border: 2px solid var(--p800); border-radius: var(--r-lg); padding: 20px; background: var(--p50); display: flex; flex-direction: column; }
-.d-after .d-label { margin-bottom: 16px; }
-.node { --k: clamp(0, calc(var(--p) * 6 - var(--i)), 1); opacity: var(--k); transform: translateY(calc((1 - var(--k)) * 14px)); padding: 12px 16px; border: 1px solid var(--p800); border-radius: var(--r-md); text-align: center; font-size: 16px; background: #fff; }
-.node-strong { background: var(--p800); color: #fff; font-weight: 600; }
-.d-after i { --k: clamp(0, calc(var(--p) * 6 - var(--i)), 1); align-self: center; width: 1.5px; height: 18px; background: var(--p800); transform: scaleY(var(--k)); transform-origin: top; }
+/* Diagrama: barra de cuatro estados. Las piezas se mueven entre ellos; el progreso sigue al scroll o a la barra */
+.dg-wrap { width: 100%; }
+.dg-stage { width: 100%; background: #fff; border: 1px solid var(--p100); border-radius: var(--r-xl); padding: 26px 40px 22px; display: flex; flex-direction: column; gap: 14px; }
+.dg-top { display: flex; justify-content: space-between; gap: 16px; font-size: 14px; color: var(--p800); }
+.dg-canvas { position: relative; height: 340px; }
+.dg-card { position: absolute; width: 22%; height: 76px; box-sizing: border-box; background: var(--p50); border: 1px solid var(--p200); border-radius: var(--r-lg); z-index: 2; will-change: left, top, transform, opacity; }
+.dg-fa, .dg-fb { position: absolute; left: 16px; right: 14px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 2px; }
+.dg-fb { opacity: 0; }
+.dg-card b { font-size: 16px; font-weight: 600; line-height: 1.2; color: var(--p900); }
+.dg-card small { font-size: 14px; color: var(--p800); }
+.dg-card.merge .dg-fa b { text-decoration: line-through; color: var(--p600); }
+.dg-auto { position: absolute; top: -11px; right: 10px; font-size: 11px; font-weight: 500; color: var(--p800); background: var(--p100); padding: 2px 8px; border-radius: 6px; opacity: 0; }
+.dg-arrow { position: absolute; transform: translate(-50%, -50%); font-size: 20px; color: var(--p800); pointer-events: none; z-index: 1; }
+.dg-dot { position: absolute; top: 184px; left: 3%; width: 9px; height: 9px; border-radius: 50%; background: var(--p800); opacity: 0; z-index: 3; animation: dg-run 3.2s ease-in-out infinite; }
+@keyframes dg-run { 0%, 100% { left: 3%; } 50% { left: 90%; } }
+.dg-bar { border-top: 1px solid var(--p100); padding-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+.dg-title { font-size: 14px; color: var(--p800); }
+.dg-labels { position: relative; height: 22px; }
+.dg-stop { position: absolute; top: 0; transform: translateX(-50%); background: none; border: 0; padding: 0; font: inherit; font-size: 14px; color: var(--p800); cursor: pointer; white-space: nowrap; }
+.dg-stop:first-child { transform: none; }
+.dg-stop.on { color: var(--p900); font-weight: 600; }
+.dg-stop:focus-visible { outline: 2px solid var(--p800); outline-offset: 3px; border-radius: 4px; }
+.dg-bar input[type=range] { width: 100%; margin: 0; -webkit-appearance: none; appearance: none; background: transparent; height: 22px; cursor: pointer; }
+.dg-bar input[type=range]::-webkit-slider-runnable-track { height: 2px; background: var(--p100); border-radius: 2px; }
+.dg-bar input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; margin-top: -7px; border-radius: 50%; background: var(--p800); border: 0; }
+.dg-bar input[type=range]::-moz-range-track { height: 2px; background: var(--p100); border-radius: 2px; }
+.dg-bar input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--p800); border: 0; }
+.dg-bar input[type=range]:focus-visible { outline: 2px solid var(--p800); outline-offset: 4px; border-radius: 4px; }
+.dg-caption { font-size: 15px; color: var(--p900); min-height: 1.4em; }
 
 /* Servicios */
 .services { position: relative; border-top: 1px solid var(--p100); }
@@ -424,7 +431,10 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
   .stage { grid-template-columns: 1fr; row-gap: 24px; }
   .js .problems .label { margin-top: 0; }
   .window { font-size: clamp(30px, 9vw, 48px); }
-  .diagram { padding: 32px 20px; }
+  .dg-stage { padding: 20px; }
+  .dg-card { width: 26%; }
+  .dg-card b { font-size: 13px; }
+  .dg-card small { font-size: 12px; }
   .svc-stage { grid-template-columns: 1fr; }
   .js .svc-left { margin-top: 90px; max-width: none; }
   .js .svc-left .lines { display: none; }
@@ -449,6 +459,7 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
   .js .btn-row { opacity: 1; transform: none; }
   .hero-cue { display: none; }
   .mouse i { animation: none; }
+  .dg-dot { animation: none; display: none; }
   .sl { opacity: 1; filter: none; transform: none; }
   .follow-label, .follow-icons, .follow-link, .follow-share { transition: none; animation: none !important; }
   .js .problems { height: auto; }
