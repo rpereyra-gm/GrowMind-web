@@ -127,7 +127,7 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
   transition: background-color .2s, border-color .2s;
 }
 .pill a {
-  display: flex; align-items: center; padding: 0 16px; border-radius: 6px; font-size: 15px; font-weight: 500;
+  display: flex; align-items: center; margin: 5px 0; padding: 0 13px; border-radius: 6px; font-size: 15px; font-weight: 500;
   text-decoration: none; color: var(--p900); transition: background-color .18s, color .18s;
 }
 .pill a:hover { background: rgba(17, 43, 44, .1); }
