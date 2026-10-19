@@ -456,11 +456,18 @@
       var ul = document.createElement('ul');
       ul.className = 'svc-list-copy svc-copy';
       ul.setAttribute('aria-hidden', 'true');
-      items.forEach(function (li) {
+      items.forEach(function (li, i) {
         var c = document.createElement('li');
         var sp = document.createElement('span');
         sp.className = 'svc-copy-name';
         sp.textContent = $('.svc-name', li).textContent;
+        sp.setAttribute('data-n', $('.svc-name', li).getAttribute('data-n'));
+        // las copias de arriba y de abajo también reaccionan al puntero
+        sp.addEventListener('mousemove', function (e) { setHover(i, e); });
+        sp.addEventListener('mouseleave', function (e) {
+          var to = e.relatedTarget;
+          if (!(to && to.classList && (to.classList.contains('svc-name') || to.classList.contains('svc-copy-name')))) setHover(-1);
+        });
         c.appendChild(sp);
         ul.appendChild(c);
       });
@@ -522,19 +529,14 @@
     for (var g = 0; g < rows.length; g++) {
       var d = Math.abs(g - center);
       var o = d <= 4 ? '1' : (d >= 7.5 ? '0' : (1 - (d - 4) / 3.5).toFixed(3));
-      var dc = Math.min(Math.abs(g - cc), 2);
-      var col = 'rgb(' + (dc <= 1 ? mix(INK, P600, dc) : mix(P600, P200, dc - 1)) + ')';
       var c = cache[g];
       if (c.o !== o) { rows[g].style.opacity = o; c.o = o; }
-      if (c.c !== col) { rows[g].style.color = col; c.c = col; }
     }
-    // Las tres líneas de la izquierda se tiñen según cuánto foco tienen sus servicios.
+    // La línea de la izquierda (Ordenar, Vender o Medir) se oscurece cuando el puntero está sobre uno de sus servicios.
     for (var k = 0; k < lineEls.length; k++) {
-      var w = 0;
-      lineItems[k].forEach(function (i) { w = Math.max(w, 1 - Math.min(Math.abs(i - cf), 1)); });
+      var w = lineItems[k].indexOf(hoverIdx) >= 0 ? hoverW : 0;
       lineEls[k].style.color = 'rgb(' + mix(P800, INK, w) + ')';
     }
-    marker.style.opacity = (1 - hoverW).toFixed(3);
     if (noHover.matches) {
       var fi = Math.round(cf);
       if (fi !== lastPop) { lastPop = fi; showPop(fi, null); }
@@ -626,7 +628,7 @@
       // Al salir del texto del servicio la ficha desaparece, salvo que se pase directo a otro servicio
       b.addEventListener('mouseleave', function (e) {
         var to = e.relatedTarget;
-        if (!(to && to.classList && to.classList.contains('svc-name'))) setHover(-1);
+        if (!(to && to.classList && (to.classList.contains('svc-name') || to.classList.contains('svc-copy-name')))) setHover(-1);
       });
     });
     stage.addEventListener('mouseleave', function () { setHover(-1); });
