@@ -111,7 +111,7 @@
     if (!heroCollapsed && heroMax >= 0.8 && r.bottom < 0) {
       var oldH = heroEl.offsetHeight;
       heroEl.style.height = '100svh';
-      window.scrollBy(0, heroEl.offsetHeight - oldH);
+      window.scrollBy({ top: heroEl.offsetHeight - oldH, behavior: 'instant' }); // sin animar: con scroll suave recorría el camino y Problemas pasaba del 1 al 5
       heroCollapsed = true;
       // El layout se movió: las posiciones guardadas de las secciones fijas quedaron viejas.
       sizeProblems();
