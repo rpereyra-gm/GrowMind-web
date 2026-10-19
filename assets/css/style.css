@@ -253,9 +253,10 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .dg-stop-last { transform: none; }
 .dg-stop.on { color: var(--p900); }
 .dg-stop:focus-visible { outline: 2px solid var(--p800); outline-offset: 3px; border-radius: 4px; }
-.dg-bar input[type=range] { width: 100%; margin: 0; -webkit-appearance: none; appearance: none; background: transparent; height: 20px; cursor: pointer; }
+.dg-bar input[type=range] { width: 100%; margin: 0; -webkit-appearance: none; appearance: none; background: transparent; height: 28px; cursor: pointer; touch-action: none; }
+.dg-bar { user-select: none; -webkit-user-select: none; }
 .dg-bar input[type=range]::-webkit-slider-runnable-track { height: 1px; background: var(--p800); }
-.dg-bar input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; margin-top: -5.5px; border-radius: 50%; background: var(--p800); border: 0; }
+.dg-bar input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; margin-top: -5.5px; border-radius: 50%; background: var(--p800); border: 0; cursor: grab; }
 .dg-bar input[type=range]::-moz-range-track { height: 1px; background: var(--p800); }
 .dg-bar input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--p800); border: 0; }
 .dg-bar input[type=range]:focus-visible { outline: 2px solid var(--p800); outline-offset: 4px; border-radius: 4px; }

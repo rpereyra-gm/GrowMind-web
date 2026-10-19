@@ -394,6 +394,28 @@
     if (!dgRaf) dgRaf = requestAnimationFrame(tickDiagram);
   }
   dgRange.addEventListener('input', function () { dgBar.classList.remove('hint'); dgTarget = dgRange.value / 100; wakeDiagram(); });
+  // Arrastre propio: sigue al mouse (o al dedo) aunque se salga de la línea, y no se corta a mitad de camino
+  var dgDrag = null;
+  function dgFromPointer(e) {
+    var r = dgRange.getBoundingClientRect(), th = 12;
+    var v = clamp((e.clientX - r.left - th / 2) / (r.width - th), 0, 1) * 100;
+    dgRange.value = v.toFixed(1);
+    dgBar.classList.remove('hint');
+    dgTarget = v / 100;
+    wakeDiagram();
+  }
+  dgRange.addEventListener('pointerdown', function (e) {
+    if (e.button !== undefined && e.button !== 0) return;
+    e.preventDefault();
+    dgRange.focus({ preventScroll: true });
+    dgDrag = e.pointerId;
+    try { dgRange.setPointerCapture(e.pointerId); } catch (err) {}
+    dgFromPointer(e);
+  });
+  dgRange.addEventListener('pointermove', function (e) { if (dgDrag === e.pointerId) dgFromPointer(e); });
+  function dgEnd(e) { if (dgDrag === e.pointerId) { dgDrag = null; try { dgRange.releasePointerCapture(e.pointerId); } catch (err) {} } }
+  dgRange.addEventListener('pointerup', dgEnd);
+  dgRange.addEventListener('pointercancel', dgEnd);
   dgStops.forEach(function (btn, i) {
     btn.addEventListener('click', function () {
       dgBar.classList.remove('hint');
