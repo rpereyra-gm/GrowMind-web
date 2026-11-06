@@ -13,7 +13,7 @@ assets/img/             logo en SVG (Regular, petróleo y blanco) y favicon (g p
 docs/handoff/           brief, contenido, maqueta, prototipo y sistema de diseño de referencia
 ```
 
-Pendientes marcados entre corchetes en la página: casos de Trabajo e imagen para compartir el link (`og:image`, 1200 × 630 px). Los enlaces de Instagram y LinkedIn apuntan a `/#` hasta tener las URL reales. Britti Sans está cargada en versión Trial (sin tildes ni ñ, que se completan con Inter); falta la licencia para uso comercial.
+Pendientes marcados entre corchetes en la página: casos de Trabajo. La imagen para compartir el link está en `assets/img/og-image.png` (fuente en `docs/og-image.html`); su URL asume el dominio `growmind.com.ar`. Los enlaces de Instagram y LinkedIn apuntan a `/#` hasta tener las URL reales. Britti Sans está cargada en versión Trial (sin tildes ni ñ, que se completan con Inter); falta la licencia para uso comercial.
 
 El contacto no usa formulario: el botón "Escribinos por WhatsApp" abre un chat directo al +54 341 275 3301, y también están el mail y el teléfono como enlaces clickeables.
 
