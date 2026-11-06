@@ -408,7 +408,7 @@ h2 { font-size: 50px; line-height: 1.05; letter-spacing: -0.015em; }
 .follow-share { transition: opacity .2s, transform .45s cubic-bezier(.65, 0, .35, 1); }
 .follow-icons { position: absolute; right: -12px; top: 0; display: flex; gap: 4px; pointer-events: none; }
 .follow-link {
-  width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; cursor: default;
+  width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
   color: var(--p50); border: 1.5px solid transparent;
   opacity: 0; transform: translateX(16px) scale(.6);
   transition: opacity .15s, transform .3s cubic-bezier(.65, 0, .35, 1), border-color .1s;
