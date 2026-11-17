@@ -105,9 +105,34 @@
   var introT = 0, introS = 0, introRaf = null, touchY = null;
   var INTRO_LEN = 2.4; // pantallas de rueda que dura la presentación
 
-  function finishIntro() { introOn = false; introT = introS = 1; renderHero(1); }
+  function finishIntro() { cancelAuto(); introOn = false; introT = introS = 1; renderHero(1); }
+
+  // Si la persona no toca nada, a los 2 segundos la presentación avanza sola (como si scrolleara),
+  // para que nadie se quede mirando el logo sin saber que hay que bajar. Cualquier gesto propio toma el control.
+  var AUTO_WAIT = 2000, AUTO_DUR = 2600, autoTimer = null, autoRaf = null;
+  function cancelAuto() {
+    if (autoTimer) { clearTimeout(autoTimer); autoTimer = null; }
+    if (autoRaf) { cancelAnimationFrame(autoRaf); autoRaf = null; }
+  }
+  function startAuto() {
+    autoTimer = null;
+    if (!introOn) return;
+    var from = introT, t0 = null;
+    function step(now) {
+      if (!introOn) { autoRaf = null; return; }
+      if (t0 === null) t0 = now;
+      var u = clamp((now - t0) / AUTO_DUR, 0, 1);
+      var e = u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2; // inOut(3)
+      introT = from + (1 - from) * e;
+      if (!introRaf) introRaf = requestAnimationFrame(tickIntro);
+      autoRaf = u < 1 ? requestAnimationFrame(step) : null;
+    }
+    autoRaf = requestAnimationFrame(step);
+  }
+  if (introOn) autoTimer = setTimeout(startAuto, AUTO_WAIT);
 
   function pushIntro(d) {
+    cancelAuto();
     introT = clamp(introT + d, 0, 1);
     if (!introRaf) introRaf = requestAnimationFrame(tickIntro);
   }
@@ -128,7 +153,7 @@
     e.preventDefault();
     pushIntro(wheelPx(e) / (window.innerHeight * INTRO_LEN));
   }, { passive: false });
-  window.addEventListener('touchstart', function (e) { if (introOn) touchY = e.touches[0].clientY; }, { passive: true });
+  window.addEventListener('touchstart', function (e) { if (introOn) { cancelAuto(); touchY = e.touches[0].clientY; } }, { passive: true });
   window.addEventListener('touchmove', function (e) {
     if (!introOn || touchY === null) return;
     e.preventDefault();
