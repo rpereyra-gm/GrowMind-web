@@ -373,7 +373,7 @@
       var v = dgMix(DG_CARD[i], s);
       centers[i] = [v[0] + 11, v[1] + 38];  // centro de la tarjeta (ancho 22 %, alto 76 px)
       c.style.left = v[0].toFixed(2) + '%';
-      c.style.top = v[1].toFixed(1) + 'px';
+      c.style.top = (v[1] / 16).toFixed(4) + 'rem';
       c.style.transform = 'rotate(' + v[2].toFixed(2) + 'deg)';
       c.style.opacity = v[3].toFixed(3);
     });
@@ -387,7 +387,7 @@
     dgArrows.forEach(function (el, j) {
       var v = dgMix(DG_ARROW[j], s);
       el.style.left = v[0].toFixed(2) + '%';
-      el.style.top = v[1].toFixed(1) + 'px';
+      el.style.top = (v[1] / 16).toFixed(4) + 'rem';
       el.style.opacity = v[2].toFixed(3);
     });
     DG_FB.forEach(function (i) {
